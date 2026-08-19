@@ -1,30 +1,25 @@
 # Sporacle
 
-**Temporary preview site** for Destination AI × & being (Trish’s spa).
+Spa + Oracle. Soft tech. Real presence.
 
-> Spa + Oracle. Soft tech. Real presence.
+Temporary preview for Destination AI × **& being** (Trish’s spa), plus a Veluma HMAC ingest so hotel spa bookings and spa-guest profiles can land here without Sporacle becoming a CDP.
 
-## Quick start
+Veluma is middleware. Hotel CDP owns the golden profile. Guest Action is hotel-wide comms. **Sporacle is the spa/oracle surface.**
 
-This is a simple static site so we can test tone and direction with Trish without waiting on Wix.
+## Preview site
 
-### Option 1 — Replit (easiest)
-1. Go to [replit.com](https://replit.com)
-2. Create new Repl → **Import from GitHub**
-3. Paste: `https://github.com/meo68gto/sporacle`
-4. Hit Run → share the public URL with Trish
+Open `index.html`, or `npm start` and visit http://localhost:8787.
 
-### Option 2 — Local
-Just open `index.html` in a browser.
+## Veluma feed
 
-### Option 3 — Vercel / Netlify
-Connect this repo and deploy in one click.
+```bash
+export VELUMA_WEBHOOK_SECRET='<same signing_secret as the Veluma delivery target>'
+npm start   # POST /api/integrations/veluma/events  GET /healthz
+npm test
+```
 
----
+HMAC is the Veluma Workforce contract: `X-Veluma-Timestamp` + `X-Veluma-Signature` over `timestamp + "." + sha256(rawBody)`.
 
-## What’s here
-- Clean landing page
-- Calm spa + oracle aesthetic
-- Ready for feedback and iteration
+`profile.upsert` merges spa guests by email/loyalty. `spa.*` and `outlet.*` events become bookings. Everything else is stored.
 
-Built fast so we can move.
+Events persist under `data/` (gitignored). Override with `SPORACLE_DATA_DIR`.
