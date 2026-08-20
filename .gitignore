@@ -1,4 +1,11 @@
 data/
 node_modules/
 .env
+.env.local
 .DS_Store
+.next
+.data
+playwright-report
+test-results
+/coverage
+*.tsbuildinfo
