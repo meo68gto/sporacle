@@ -21,6 +21,14 @@ export async function openDb(dataDir: string): Promise<Db> {
   return db;
 }
 
+/** Close every on-disk PGlite handle (used by CLI scripts so the process can exit). */
+export async function closeAllDbs(): Promise<void> {
+  for (const { pglite } of clients.values()) {
+    await pglite.close();
+  }
+  clients.clear();
+}
+
 export async function openMemoryDb(): Promise<{ db: Db; pglite: PGlite }> {
   const pglite = new PGlite();
   await pglite.waitReady;

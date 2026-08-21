@@ -44,4 +44,18 @@ describe("UI copy invariants", () => {
     const fig = readFileSync(path.join(process.cwd(), "src/components/Figure.tsx"), "utf8");
     expect(fig).toContain("ProvenanceChip");
   });
+
+  it("Today is a real route, linked from nav, and the authed home lands on it", () => {
+    const nav = readFileSync(path.join(process.cwd(), "src/components/Nav.tsx"), "utf8");
+    expect(nav).toContain("/today");
+    const home = readFileSync(path.join(process.cwd(), "src/app/page.tsx"), "utf8");
+    expect(home).toContain('redirect("/today")');
+    const today = readFileSync(path.join(process.cwd(), "src/app/(app)/today/page.tsx"), "utf8");
+    // I4: every number on Today carries provenance (Figure pairs
+    // data-figure with a ProvenanceChip; custom tiles render the chip).
+    expect(today).toContain("ProvenanceChip");
+    expect(today).toContain("provenanceOf");
+    // I5: missing tile data renders an explicit not-available state.
+    expect(today).toContain("Not available");
+  });
 });

@@ -154,6 +154,45 @@ export const collisionLog = pgTable("collision_log", {
   loggedAt: timestamp("logged_at", { withTimezone: true }).notNull(),
 });
 
+/**
+ * Live Veluma event deliveries (spa.booking.created / outlet.reservation.upsert).
+ * I1: operational fields only — the keep-allowlist in src/lib/ingest/veluma-events.ts
+ * is the sole write path; no raw payload jsonb column on purpose so unknown (possibly
+ * guest-identifying) fields can never land here. profile.upsert is never written.
+ * I4: ingest_run_id + received_at give every row provenance.
+ * I6: date_basis is explicit per event type.
+ * Append-only event log — I3: events are claims from the feed, never merged in place.
+ */
+export const velumaEvent = pgTable(
+  "veluma_event",
+  {
+    id: text("id").primaryKey(),
+    ingestRunId: text("ingest_run_id").notNull(),
+    eventType: text("event_type").notNull(),
+    canonicalType: text("canonical_type"),
+    idempotencyKey: text("idempotency_key").notNull(),
+    sourceRef: text("source_ref"),
+    schemaVersion: text("schema_version"),
+    propertyRef: text("property_ref"),
+    lineageConnector: text("lineage_connector"),
+    lineageRunId: text("lineage_run_id"),
+    bookingRef: text("booking_ref"),
+    serviceCode: text("service_code"),
+    outletCode: text("outlet_code"),
+    startAt: timestamp("start_at", { withTimezone: true }),
+    endAt: timestamp("end_at", { withTimezone: true }),
+    businessDate: date("business_date"),
+    dateBasis: text("date_basis").notNull(),
+    status: text("status"),
+    partySize: integer("party_size"),
+    valueCents: integer("value_cents"),
+    channel: text("channel"),
+    technicianRef: text("technician_ref"),
+    receivedAt: timestamp("received_at", { withTimezone: true }).notNull(),
+  },
+  (t) => [uniqueIndex("veluma_event_idempotency_key_uidx").on(t.idempotencyKey)],
+);
+
 export const appTables = {
   source,
   ingestRun,
@@ -166,4 +205,5 @@ export const appTables = {
   auditEvent,
   feedAdapter,
   collisionLog,
+  velumaEvent,
 };
