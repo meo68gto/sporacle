@@ -30,6 +30,8 @@ CREATE TABLE IF NOT EXISTS ingest_run (
   supersedes_run_id text,
   created_at timestamptz NOT NULL
 );
+-- delivery_id is written only at terminal success (see src/lib/ingest/veluma-events.ts, B2):
+-- the partial unique index therefore only ever guards fully-delivered batches.
 CREATE UNIQUE INDEX IF NOT EXISTS ingest_run_delivery_id_uidx ON ingest_run (delivery_id) WHERE delivery_id IS NOT NULL;
 CREATE TABLE IF NOT EXISTS measure_fact (
   id text PRIMARY KEY,
@@ -118,9 +120,36 @@ CREATE TABLE IF NOT EXISTS collision_log (
   dropped_run_id text NOT NULL,
   logged_at timestamptz NOT NULL
 );
+CREATE TABLE IF NOT EXISTS veluma_event (
+  id text PRIMARY KEY,
+  ingest_run_id text NOT NULL,
+  event_type text NOT NULL,
+  canonical_type text,
+  idempotency_key text NOT NULL,
+  source_ref text,
+  schema_version text,
+  property_ref text,
+  lineage_connector text,
+  lineage_run_id text,
+  booking_ref text,
+  service_code text,
+  outlet_code text,
+  start_at timestamptz,
+  end_at timestamptz,
+  business_date date,
+  date_basis text NOT NULL,
+  status text,
+  party_size integer,
+  value_cents integer,
+  channel text,
+  technician_ref text,
+  received_at timestamptz NOT NULL
+);
+CREATE UNIQUE INDEX IF NOT EXISTS veluma_event_idempotency_key_uidx ON veluma_event (idempotency_key);
 `;
 
 export const DROP_DDL = `
+DROP TABLE IF EXISTS veluma_event;
 DROP TABLE IF EXISTS collision_log;
 DROP TABLE IF EXISTS feed_adapter;
 DROP TABLE IF EXISTS audit_event;

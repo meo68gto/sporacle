@@ -119,6 +119,11 @@ export const EXTRA_ADAPTERS = [
   { feedKey: "pms_hotel_occupancy", status: "not_configured", notes: "Fairmont PMS — organizational ask" },
   { feedKey: "b4t_service_price_master", status: "not_configured", notes: "blocks G3/G4" },
   { feedKey: "b4t_price_change_history", status: "not_configured", notes: "blocks G3" },
+  {
+    feedKey: "veluma_events",
+    status: "not_configured",
+    notes: "Veluma live event push — POST /api/integrations/veluma/events (profile.upsert never stored, I1)",
+  },
 ] as const;
 
 export async function seedSources(db: Db): Promise<void> {

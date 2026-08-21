@@ -11,6 +11,10 @@ export function middleware(req: NextRequest) {
   if (pathname.startsWith("/api/ingest/veluma")) {
     return NextResponse.next();
   }
+  // Veluma live event push — auth is the HMAC signature inside the route (I13).
+  if (pathname.startsWith("/api/integrations/veluma")) {
+    return NextResponse.next();
+  }
   if (!req.cookies.get(SESSION_COOKIE)?.value) {
     const url = req.nextUrl.clone();
     url.pathname = "/login";

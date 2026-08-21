@@ -42,6 +42,7 @@ export function can(user: SessionUser, action: Action): boolean {
 
 export const ROUTE_ACTIONS: Record<string, Action> = {
   "/": "read",
+  "/today": "read",
   "/variance": "read",
   "/hypotheses": "read",
   "/health": "read",

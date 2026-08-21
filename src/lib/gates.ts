@@ -95,7 +95,11 @@ export async function evaluateGates(db: Db): Promise<Gate[]> {
     },
     {
       id: "G5_revenue_definition",
-      label: "Revenue definition",
+      // Label deliberately avoids the bare word "Revenue" as a figure label
+      // (see src/test/ui-crawl.test.ts and e2e/crawl.spec.ts): no number in
+      // this app is ever presented as "Revenue" until a definition is signed
+      // off (§5, I9).
+      label: "Signed-off revenue definition",
       threshold: "≥ 1 promoted measure definition",
       current: `${defs.length} promoted`,
       currentValue: defs.length,

@@ -1,6 +1,7 @@
 import { test, expect } from "@playwright/test";
 
 const ROUTES = [
+  "/today",
   "/variance",
   "/hypotheses",
   "/health",
@@ -26,10 +27,13 @@ test("off-allowlist email is rejected", async ({ page }) => {
 });
 
 test("allowlisted admin can sign in and crawl", async ({ page }) => {
+  // Crawls every route against a dev server that compiles each page on first
+  // visit; the default 30s per-test budget is not enough for ~16 routes.
+  test.setTimeout(240_000);
   await page.goto("/login");
   await page.locator('input[name="email"]').fill("admin@sporacle.test");
   await page.locator("button[type=submit]").click();
-  await expect(page).toHaveURL(/variance/);
+  await expect(page).toHaveURL(/today/);
   for (const route of ROUTES) {
     await page.goto(route);
     const body = await page.locator("body").innerText();

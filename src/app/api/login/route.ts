@@ -11,7 +11,9 @@ export async function POST(req: Request) {
   if (!user) {
     return NextResponse.redirect(new URL("/login?error=forbidden", req.url), 303);
   }
-  const res = NextResponse.redirect(new URL("/variance", req.url), 303);
+  // Today is the landing screen (design spec §5) — keep in sync with the
+  // root redirect in src/app/page.tsx and the e2e login assertion.
+  const res = NextResponse.redirect(new URL("/today", req.url), 303);
   res.cookies.set(SESSION_COOKIE, encodeSession(env.AUTH_SECRET, user), {
     httpOnly: true,
     sameSite: "lax",
