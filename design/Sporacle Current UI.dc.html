@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+  html, body { margin:0; padding:0; background:#f6f1ea; color:#1c1916; font:15px/1.45 "Iowan Old Style", Georgia, serif; }
+  a { color:#5c4a3a; }
+  a:hover { color:#3f3227; }
+</style>
+</helmet>
+<div style="background:#f6f1ea; color:#1c1916; font:15px/1.45 'Iowan Old Style', Georgia, serif; min-height:100vh;">
+
+  <header style="display:flex; gap:16px; align-items:center; padding:12px 20px; border-bottom:1px solid #e2d8cc; background:#fffdf9; position:sticky; top:0; z-index:2;">
+    <div style="font-weight:700; letter-spacing:0.04em;">Sporacle</div>
+    <nav style="display:flex; flex-wrap:wrap; gap:10px 14px; flex:1; font-family:system-ui, sans-serif; font-size:13px;">
+      <a href="#variance" style="color:#5c4a3a;">Variance</a>
+      <a href="#hypotheses" style="color:#5c4a3a;">Hypotheses</a>
+      <a href="#health" style="color:#5c4a3a;">Data health</a>
+      <a href="#demand" style="color:#5c4a3a;">Demand</a>
+      <a href="#status" style="color:#5c4a3a;">Status mix</a>
+      <a href="#booking-source" style="color:#5c4a3a;">Booking source</a>
+      <a href="#occupancy" style="color:#5c4a3a;">Occupancy</a>
+      <a href="#turnaway" style="color:#5c4a3a;">Turnaway</a>
+      <a href="#labor" style="color:#5c4a3a;">Labor</a>
+      <a href="#coverage" style="color:#5c4a3a;">Coverage</a>
+      <a href="#forward-book" style="color:#5c4a3a;">Forward book</a>
+      <a href="#feeds" style="color:#5c4a3a;">Feeds</a>
+      <a href="#veluma" style="color:#5c4a3a;">Veluma</a>
+      <a href="#gates" style="color:#5c4a3a;">Sufficiency gates</a>
+      <a href="#pricing" style="color:#5c4a3a;">Pricing</a>
+      <a href="#ingest" style="color:#5c4a3a;">Ingest</a>
+      <a href="#audit" style="color:#5c4a3a;">Audit</a>
+    </nav>
+    <div style="font-family:system-ui, sans-serif; font-size:12px; color:#6b6259; display:flex; gap:8px; align-items:center;">
+      admin@sporacle.test · admin
+      <button type="button" style="font:inherit; font-family:system-ui, sans-serif; background:#5c4a3a; color:white; border:0; border-radius:8px; padding:8px 12px; cursor:pointer;">Log out</button>
+    </div>
+  </header>
+
+  <main style="padding:28px 24px 80px; max-width:1100px;">
+
+    <section id="variance" data-screen-label="Variance">
+      <h1 style="font-weight:500; font-size:28px; margin:0 0 8px;">Variance ledger</h1>
+      <p style="color:#6b6259; max-width:62ch; margin:0;">These are five different measures for 2026-08-19, not errors. There is no headline total. Do not force.</p>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:12px; margin:16px 0;">
+        <div style="background:#fffdf9; border:1px solid #e2d8cc; border-radius:12px; padding:16px 18px;">
+          <span style="display:flex; flex-direction:column; gap:6px;">
+            <span style="font-family:system-ui, sans-serif; font-size:12px; color:#6b6259;">D1 appt_value_by_hour (service_date)</span>
+            <strong style="font-size:26px;">$10,226.00</strong>
+            <span style="display:inline-block; align-self:flex-start; font-family:system-ui, sans-serif; font-size:11px; border:1px solid #e2d8cc; border-radius:999px; padding:2px 8px; color:#6b6259;" title="measure appt_value_by_hour · report 1421 · business date 2026-08-19 · pulled 2026-08-20T14:21:00Z · ingest run run_d1_0819" tabindex="0">D1 1421 2026-08-19</span>
+          </span>
+        </div>
+        <div style="background:#fffdf9; border:1px solid #e2d8cc; border-radius:12px; padding:16px 18px;">
+          <span style="display:flex; flex-direction:column; gap:6px;">
+            <span style="font-family:system-ui, sans-serif; font-size:12px; color:#6b6259;">D2 pos_gross_sales_by_hour (transaction_date)</span>
+            <strong style="font-size:26px;">$15,801.95</strong>
+            <span style="display:inline-block; align-self:flex-start; font-family:system-ui, sans-serif; font-size:11px; border:1px solid #e2d8cc; border-radius:999px; padding:2px 8px; color:#6b6259;" title="measure pos_gross_sales_by_hour · report 1412 · business date 2026-08-19 · pulled 2026-08-20T14:21:00Z · ingest run run_d2_0819" tabindex="0">D2 1412 2026-08-19</span>
+          </span>
+          <p style="font-family:system-ui, sans-serif; font-size:12px; color:#6b6259; margin:8px 0 0;">Different date basis: transaction_date.</p>
+        </div>
+        <div style="background:#fffdf9; border:1px solid #e2d8cc; border-radius:12px; padding:16px 18px;">
+          <span style="display:flex; flex-direction:column; gap:6px;">
+            <span style="font-family:system-ui, sans-serif; font-size:12px; color:#6b6259;">D3 appt_value_by_status closed (service_date)</span>
+            <strong style="font-size:26px;">$9,996.00</strong>
+            <span style="display:inline-block; align-self:flex-start; font-family:system-ui, sans-serif; font-size:11px; border:1px solid #e2d8cc; border-radius:999px; padding:2px 8px; color:#6b6259;" title="measure appt_value_by_status · report 1253 · business date 2026-08-19 · pulled 2026-08-20T14:21:00Z · ingest run run_d3_0819" tabindex="0">D3 1253 2026-08-19</span>
+          </span>
+        </div>
+        <div style="background:#fffdf9; border:1px solid #e2d8cc; border-radius:12px; padding:16px 18px;">
+          <span style="display:flex; flex-direction:column; gap:6px;">
+            <span style="font-family:system-ui, sans-serif; font-size:12px; color:#6b6259;">D4 service_value_by_facility (service_date)</span>
+            <strong style="font-size:26px;">$10,806.00</strong>
+            <span style="display:inline-block; align-self:flex-start; font-family:system-ui, sans-serif; font-size:11px; border:1px solid #e2d8cc; border-radius:999px; padding:2px 8px; color:#6b6259;" title="measure service_value_by_facility · report 1524 · business date 2026-08-19 · pulled 2026-08-20T14:21:00Z · ingest run run_d4_0819" tabindex="0">D4 1524 2026-08-19</span>
+          </span>
+        </div>
+        <div style="background:#fffdf9; border:1px solid #e2d8cc; border-radius:12px; padding:16px 18px;">
+          <span style="display:flex; flex-direction:column; gap:6px;">
+            <span style="font-family:system-ui, sans-serif; font-size:12px; color:#6b6259;">D5 booking_value_by_source (booking_date)</span>
+            <strong style="font-size:26px;">$46,336.00</strong>
+            <span style="display:inline-block; align-self:flex-start; font-family:system-ui, sans-serif; font-size:11px; border:1px solid #e2d8cc; border-radius:999px; padding:2px 8px; color:#6b6259;" title="measure booking_value_by_source · report 1343 · business date 2026-08-19 · pulled 2026-08-20T14:21:00Z · ingest run run_d5_0819" tabindex="0">D5 1343 2026-08-19</span>
+          </span>
+          <p style="font-family:system-ui, sans-serif; font-size:12px; color:#6b6259; margin:8px 0 0;">booking_date basis — not same-day delivered business. See H1.</p>
+        </div>
+      </div>
+      <div style="background:#fffdf9; border:1px solid #e2d8cc; border-radius:12px; padding:16px 18px; margin:16px 0;">
+        <h2 style="font-weight:500; margin:0 0 8px;">Pairwise deltas (same-day cents, not a reconciliation)</h2>
+        <table style="width:100%; border-collapse:collapse; font-family:system-ui, sans-serif; font-size:13px;">
+          <thead>
+            <tr>
+              <th style="text-align:left; padding:8px 6px; border-bottom:1px solid #e2d8cc; vertical-align:top;">A</th>
+              <th style="text-align:left; padding:8px 6px; border-bottom:1px solid #e2d8cc; vertical-align:top;">B</th>
+              <th style="text-align:left; padding:8px 6px; border-bottom:1px solid #e2d8cc; vertical-align:top;">Delta</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td style="text-align:left; padding:8px 6px; border-bottom:1px solid #e2d8cc;">D1</td><td style="text-align:left; padding:8px 6px; border-bottom:1px solid #e2d8cc;">D2</td><td style="text-align:left; padding:8px 6px; border-bottom:1px solid #e2d8cc;">-$5,575.95</td></tr>
+            <tr><td style="text-align:left; padding:8px 6px; border-bottom:1px solid #e2d8cc;">D1</td><td style="text-align:left; padding:8px 6px; border-bottom:1px solid #e2d8cc;">D3</td><td style="text-align:left; padding:8px 6px; border-bottom:1px solid #e2d8cc;">$230.00</td></tr>
+            <tr><td style="text-align:left; padding:8px 6px; border-bottom:1px solid #e2d8cc;">D1</td><td style="text-align:left; padding:8px 6px; border-bottom:1px solid #e2d8cc;">D4</td><td style="text-align:left; padding:8px 6px; border-bottom:1px solid #e2d8cc;">-$580.00</td></tr>
+            <tr><td style="text-align:left; padding:8px 6px; border-bottom:1px solid #e2d8cc;">D1</td><td style="text-align:left; padding:8px 6px; border-bottom:1px solid #e2d8cc;">D5</td><td style="text-align:left; padding:8px 6px; border-bottom:1px solid #e2d8cc;">-$36,110.00</td></tr>
+            <tr><td style="text-align:left; padding:8px 6px; border-bottom:1px solid #e2d8cc;">D2</td><td style="text-align:left; padding:8px 6px; border-bottom:1px solid #e2d8cc;">D3</td><td style="text-align:left; padding:8px 6px; border-bottom:1px solid #e2d8cc;">$5,805.95</td></tr>
+            <tr><td style="text-align:left; padding:8px 6px; border-bottom:1px solid #e2d8cc;">D2</td><td style="text-align:left; padding:8px 6px; border-bottom:1px solid #e2d8cc;">D4</td><td style="text-align:left; padding:8px 6px; border-bottom:1px solid #e2d8cc;">$4,995.95</td></tr>
+            <tr><td style="text-align:left; padding:8px 6px; border-bottom:1px solid #e2d8cc;">D2</td><td style="text-align:left; padding:8px 6px; border-bottom:1px solid #e2d8cc;">D5</td><td style="text-align:left; padding:8px 6px; border-bottom:1px solid #e2d8cc;">-$30,534.05</td></tr>
+            <tr><td style="text-align:left; padding:8px 6px; border-bottom:1px solid #e2d8cc;">D3</td><td style="text-align:left; padding:8px 6px; border-bottom:1px solid #e2d8cc;">D4</td><td style="text-align:left; padding:8px 6px; border-bottom:1px solid #e2d8cc;">-$810.00</td></tr>
+            <tr><td style="text-align:left; padding:8px 6px; border-bottom:1px solid #e2d8cc;">D3</td><td style="text-align:left; padding:8px 6px; border-bottom:1px solid #e2d8cc;">D5</td><td style="text-align:left; padding:8px 6px; border-bottom:1px solid #e2d8cc;">-$36,340.00</td></tr>
+            <tr><td style="text-align:left; padding:8px 6px; border-bottom:1px solid #e2d8cc;">D4</td><td style="text-align:left; padding:8px 6px; border-bottom:1px solid #e2d8cc;">D5</td><td style="text-align:left; padding:8px 6px; border-bottom:1px solid #e2d8cc;">-$35,530.00</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="font-family:system-ui, sans-serif; font-size:12px; color:#6b6259;">28 fact rows for the selected day.</p>
+    </section>
+
+    <section id="hypotheses" data-screen-label="Hypotheses" style="margin-top:48px;">
+      <h1 style="font-weight:500; font-size:28px; margin:0 0 8px;">Hypothesis board</h1>
+      <p style="color:#6b6259; max-width:62ch; margin:0;">Open explanations for the five-way money divergence. Promotion is an admin-signed definition, never automatic. H4 is arithmetically clean and still not auto-promoted.</p>
+      <article style="background:#fffdf9; border:1px solid #e2d8cc; border-radius:12px; padding:16px 18px; margin:16px 0;">
+        <h2 style="font-weight:500; margin:0 0 8px;">H1 · open</h2>
+        <p style="margin:0 0 8px;">D5's $46,336 is ~4.5× the others because it is on booking_date: it counts forward bookings created on 8/19, not services delivered on 8/19.</p>
+        <p style="font-family:system-ui, sans-serif; font-size:12px; color:#6b6259; margin:0;">Test: D5's 8/19 value should correlate with future service dates, not with 8/19 delivery.</p>
+        <p style="font-family:system-ui, sans-serif; font-size:12px; color:#6b6259; margin:4px 0 0;">Missing: D7 (blocked) forward-book detail.</p>
+        <form style="margin-top:12px;"><button type="button" style="font:inherit; font-family:system-ui, sans-serif; background:#5c4a3a; color:white; border:0; border-radius:8px; padding:8px 12px; cursor:pointer;">Promote to signed definition</button></form>
+      </article>
+      <article style="background:#fffdf9; border:1px solid #e2d8cc; border-radius:12px; padding:16px 18px; margin:16px 0;">
+        <h2 style="font-weight:500; margin:0 0 8px;">H2 · open</h2>
+        <p style="margin:0 0 8px;">D2's $15,801.95 exceeds D1's $10,226 because POS includes retail product, gratuity, and/or gift card sales that are not appointment value.</p>
+        <p style="font-family:system-ui, sans-serif; font-size:12px; color:#6b6259; margin:0;">Test: POS line-category detail.</p>
+        <p style="font-family:system-ui, sans-serif; font-size:12px; color:#6b6259; margin:4px 0 0;">Missing: line-category export, not currently produced.</p>
+        <form style="margin-top:12px;"><button type="button" style="font:inherit; font-family:system-ui, sans-serif; background:#5c4a3a; color:white; border:0; border-radius:8px; padding:8px 12px; cursor:pointer;">Promote to signed definition</button></form>
+      </article>
+      <article style="background:#fffdf9; border:1px solid #e2d8cc; border-radius:12px; padding:16px 18px; margin:16px 0;">
+        <h2 style="font-weight:500; margin:0 0 8px;">H4 · open</h2>
+        <p style="margin:0 0 8px;">D3's closed $9,996 is the narrowest measure: delivered and settled only, excluding the 1 still-booked ($230) and all 22 cancelled ($4,521). 9,996 + 230 = 10,226 = D1 exactly.</p>
+        <p style="font-family:system-ui, sans-serif; font-size:12px; color:#6b6259; margin:0;">Test: arithmetic holds across further business dates.</p>
+        <p style="font-family:system-ui, sans-serif; font-size:12px; color:#6b6259; margin:4px 0 0;">Missing: a second and third day of the same identity.</p>
+        <form style="margin-top:12px;"><button type="button" style="font:inherit; font-family:system-ui, sans-serif; background:#5c4a3a; color:white; border:0; border-radius:8px; padding:8px 12px; cursor:pointer;">Promote to signed definition</button></form>
+      </article>
+      <form style="background:#fffdf9; border:1px solid #e2d8cc; border-radius:12px; padding:16px 18px; margin:16px 0;">
+        <h2 style="font-weight:500; margin:0 0 8px;">Add hypothesis</h2>
+        <textarea rows="3" style="font:inherit; font-family:system-ui, sans-serif; width:100%;"></textarea>
+        <div style="height:8px;"></div>
+        <input placeholder="What would settle it" style="font:inherit; font-family:system-ui, sans-serif; width:100%;">
+        <div style="height:8px;"></div>
+        <button type="button" style="font:inherit; font-family:system-ui, sans-serif; background:#5c4a3a; color:white; border:0; border-radius:8px; padding:8px 12px; cursor:pointer;">Save</button>
+      </form>
+    </section>
+
+    <section id="health" data-screen-label="Data health" style="margin-top:48px;">
+      <h1 style="font-weight:500; font-size:28px; margin:0 0 8px;">Data health</h1>
+      <p style="color:#6b6259; max-width:62ch; margin:0 0 16px;">Per-source status. A blocked delivery is source trouble. No delivery at all is transport trouble.</p>
+      <table style="width:100%; border-collapse:collapse; font-family:system-ui, sans-serif; font-size:13px;">
+        <thead>
+          <tr>
+            <th style="text-align:left; padding:8px 6px; border-bottom:1px solid #e2d8cc;">Source</th>
+            <th style="text-align:left; padding:8px 6px; border-bottom:1px solid #e2d8cc;">Status</th>
+            <th style="text-align:left; padding:8px 6px; border-bottom:1px solid #e2d8cc;">Last run</th>
+            <th style="text-align:left; padding:8px 6px; border-bottom:1px solid #e2d8cc;">Quarantine</th>
+            <th style="text-align:left; padding:8px 6px; border-bottom:1px solid #e2d8cc;">Blocked</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">D1 1421 appointment-analysis-by-hour</td><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">active</td><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">ok 2026-08-20T14:21:00.000Z</td><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">0</td><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">—</td></tr>
+          <tr><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">D2 1412 sales-by-hour (POS)</td><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">active</td><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">ok 2026-08-20T14:21:00.000Z</td><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">0</td><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">—</td></tr>
+          <tr><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">D3 1253 appointment-analysis-by-status</td><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">active</td><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">ok 2026-08-20T14:21:00.000Z</td><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">0</td><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">—</td></tr>
+          <tr><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">D4 1524 facility-occupancy-analysis</td><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">active</td><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">ok 2026-08-20T14:21:00.000Z</td><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">0</td><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">—</td></tr>
+          <tr><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">D5 1343 booking-analysis-by-source</td><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">active</td><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">ok 2026-08-20T14:21:00.000Z</td><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">0</td><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">—</td></tr>
+          <tr><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">D6 turnaway-tracking</td><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">active</td><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">ok 2026-08-20T14:21:00.000Z</td><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">0</td><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">—</td></tr>
+          <tr style="background:#f8ece6;"><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">D7 1656 future-revenues</td><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">blocked</td><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">blocked 2026-08-20T14:21:00.000Z</td><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">1</td><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">NullReferenceException since 2026-08-20</td></tr>
+          <tr><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">D8 1243 hours-work-summary</td><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">active</td><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">ok 2026-08-20T14:21:00.000Z</td><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">0</td><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">—</td></tr>
+          <tr><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">D9 service-analysis-by-day</td><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">active</td><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">ok 2026-08-20T14:21:00.000Z</td><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">0</td><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">—</td></tr>
+          <tr><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">D10 technician-weekly-schedule</td><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">active</td><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">no delivery — transport/staleness</td><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">0</td><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">—</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="demand" data-screen-label="Demand" style="margin-top:48px;">
+      <h1 style="font-weight:500; font-size:28px; margin:0 0 8px;">Demand by hour</h1>
+      <p style="color:#6b6259; max-width:62ch; margin:0;">Single measure family from D1 / 1421. service_date. No cross-source math.</p>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:12px; margin:16px 0;">
+        <div style="background:#fffdf9; border:1px solid #e2d8cc; border-radius:12px; padding:16px 18px;">
+          <span style="display:flex; flex-direction:column; gap:6px;">
+            <span style="font-family:system-ui, sans-serif; font-size:12px; color:#6b6259;">appt_count_by_hour total</span>
+            <strong style="font-size:26px;">59</strong>
+            <span style="display:inline-block; align-self:flex-start; font-family:system-ui, sans-serif; font-size:11px; border:1px solid #e2d8cc; border-radius:999px; padding:2px 8px; color:#6b6259;" title="measure appt_count_by_hour · report 1421 · business date 2026-08-19 · pulled 2026-08-20T14:21:00Z · ingest run run_d1_0819" tabindex="0">D1 1421 2026-08-19</span>
+          </span>
+        </div>
+        <div style="background:#fffdf9; border:1px solid #e2d8cc; border-radius:12px; padding:16px 18px;">
+          <span style="display:flex; flex-direction:column; gap:6px;">
+            <span style="font-family:system-ui, sans-serif; font-size:12px; color:#6b6259;">appt_value_by_hour total</span>
+            <strong style="font-size:26px;">$10,226.00</strong>
+            <span style="display:inline-block; align-self:flex-start; font-family:system-ui, sans-serif; font-size:11px; border:1px solid #e2d8cc; border-radius:999px; padding:2px 8px; color:#6b6259;" title="measure appt_value_by_hour · report 1421 · business date 2026-08-19" tabindex="0">D1 1421 2026-08-19</span>
+          </span>
+        </div>
+        <div style="background:#fffdf9; border:1px solid #e2d8cc; border-radius:12px; padding:16px 18px;">
+          <span style="display:flex; flex-direction:column; gap:6px;">
+            <span style="font-family:system-ui, sans-serif; font-size:12px; color:#6b6259;">peak hour 14 appt_count_by_hour</span>
+            <strong style="font-size:26px;">11</strong>
+            <span style="display:inline-block; align-self:flex-start; font-family:system-ui, sans-serif; font-size:11px; border:1px solid #e2d8cc; border-radius:999px; padding:2px 8px; color:#6b6259;" title="measure appt_count_by_hour · report 1421 · business date 2026-08-19" tabindex="0">D1 1421 2026-08-19</span>
+          </span>
+        </div>
+      </div>
+      <div style="background:#fffdf9; border:1px solid #e2d8cc; border-radius:12px; padding:16px 18px; margin:16px 0;">
+        <div style="font-family:system-ui, sans-serif; font-size:12px; color:#6b6259;">date basis: <strong>service_date</strong> · measure: <strong>appt_count_by_hour</strong></div>
+        <div style="display:flex; gap:6px; align-items:flex-end; height:100px; margin-top:8px;">
+          <div style="display:flex; flex-direction:column; align-items:center; gap:4px; font-size:10px; color:#6b6259; font-family:system-ui, sans-serif;"><div style="width:18px; background:#5c4a3a; border-radius:3px 3px 0 0; height:29px;"></div><span>9</span></div>
+          <div style="display:flex; flex-direction:column; align-items:center; gap:4px; font-size:10px; color:#6b6259; font-family:system-ui, sans-serif;"><div style="width:18px; background:#5c4a3a; border-radius:3px 3px 0 0; height:44px;"></div><span>10</span></div>
+          <div style="display:flex; flex-direction:column; align-items:center; gap:4px; font-size:10px; color:#6b6259; font-family:system-ui, sans-serif;"><div style="width:18px; background:#5c4a3a; border-radius:3px 3px 0 0; height:51px;"></div><span>11</span></div>
+          <div style="display:flex; flex-direction:column; align-items:center; gap:4px; font-size:10px; color:#6b6259; font-family:system-ui, sans-serif;"><div style="width:18px; background:#5c4a3a; border-radius:3px 3px 0 0; height:36px;"></div><span>12</span></div>
+          <div style="display:flex; flex-direction:column; align-items:center; gap:4px; font-size:10px; color:#6b6259; font-family:system-ui, sans-serif;"><div style="width:18px; background:#5c4a3a; border-radius:3px 3px 0 0; height:58px;"></div><span>13</span></div>
+          <div style="display:flex; flex-direction:column; align-items:center; gap:4px; font-size:10px; color:#6b6259; font-family:system-ui, sans-serif;"><div style="width:18px; background:#8a3b12; border-radius:3px 3px 0 0; height:80px;"></div><span>14</span></div>
+          <div style="display:flex; flex-direction:column; align-items:center; gap:4px; font-size:10px; color:#6b6259; font-family:system-ui, sans-serif;"><div style="width:18px; background:#5c4a3a; border-radius:3px 3px 0 0; height:65px;"></div><span>15</span></div>
+          <div style="display:flex; flex-direction:column; align-items:center; gap:4px; font-size:10px; color:#6b6259; font-family:system-ui, sans-serif;"><div style="width:18px; background:#5c4a3a; border-radius:3px 3px 0 0; height:44px;"></div><span>16</span></div>
+          <div style="display:flex; flex-direction:column; align-items:center; gap:4px; font-size:10px; color:#6b6259; font-family:system-ui, sans-serif;"><div style="width:18px; background:#5c4a3a; border-radius:3px 3px 0 0; height:22px;"></div><span>17</span></div>
+        </div>
+      </div>
+      <div style="background:#fffdf9; border:1px solid #e2d8cc; border-radius:12px; padding:16px 18px; margin:16px 0;">
+        <h2 style="font-weight:500; margin:0 0 8px;">14-day window (2026-08-07 → 2026-08-20)</h2>
+        <p style="font-family:system-ui, sans-serif; font-size:12px; color:#6b6259; margin:0;">Missing days render as gaps, not zeros (I5).</p>
+        <div style="display:flex; gap:6px; align-items:flex-end; height:100px; margin-top:8px;">
+          <div style="display:flex; flex-direction:column; align-items:center; gap:4px; font-size:10px; color:#6b6259; font-family:system-ui, sans-serif;"><div style="width:18px; background:#5c4a3a; border-radius:3px 3px 0 0; height:62px;"></div><span>08-07</span></div>
+          <div style="display:flex; flex-direction:column; align-items:center; gap:4px; font-size:10px; color:#6b6259; font-family:system-ui, sans-serif;"><div style="width:18px; background:#5c4a3a; border-radius:3px 3px 0 0; height:70px;"></div><span>08-08</span></div>
+          <div style="display:flex; flex-direction:column; align-items:center; gap:4px; font-size:10px; color:#6b6259; font-family:system-ui, sans-serif;"><div style="width:18px; background:#5c4a3a; border-radius:3px 3px 0 0; height:55px;"></div><span>08-09</span></div>
+          <div style="display:flex; flex-direction:column; align-items:center; gap:4px; font-size:10px; color:#6b6259; font-family:system-ui, sans-serif;"><div style="width:18px; background:#5c4a3a; border-radius:3px 3px 0 0; height:48px;"></div><span>08-10</span></div>
+          <div style="display:flex; flex-direction:column; align-items:center; gap:4px; font-size:10px; color:#6b6259; font-family:system-ui, sans-serif;"><div style="width:18px; background:repeating-linear-gradient(135deg, #ddd, #ddd 2px, transparent 2px, transparent 4px); border-radius:3px 3px 0 0; height:4px;" title="08-11: not available"></div><span>08-11</span></div>
+          <div style="display:flex; flex-direction:column; align-items:center; gap:4px; font-size:10px; color:#6b6259; font-family:system-ui, sans-serif;"><div style="width:18px; background:#5c4a3a; border-radius:3px 3px 0 0; height:51px;"></div><span>08-12</span></div>
+          <div style="display:flex; flex-direction:column; align-items:center; gap:4px; font-size:10px; color:#6b6259; font-family:system-ui, sans-serif;"><div style="width:18px; background:#5c4a3a; border-radius:3px 3px 0 0; height:59px;"></div><span>08-13</span></div>
+          <div style="display:flex; flex-direction:column; align-items:center; gap:4px; font-size:10px; color:#6b6259; font-family:system-ui, sans-serif;"><div style="width:18px; background:#5c4a3a; border-radius:3px 3px 0 0; height:72px;"></div><span>08-14</span></div>
+          <div style="display:flex; flex-direction:column; align-items:center; gap:4px; font-size:10px; color:#6b6259; font-family:system-ui, sans-serif;"><div style="width:18px; background:#5c4a3a; border-radius:3px 3px 0 0; height:80px;"></div><span>08-15</span></div>
+          <div style="display:flex; flex-direction:column; align-items:center; gap:4px; font-size:10px; color:#6b6259; font-family:system-ui, sans-serif;"><div style="width:18px; background:#5c4a3a; border-radius:3px 3px 0 0; height:66px;"></div><span>08-16</span></div>
+          <div style="display:flex; flex-direction:column; align-items:center; gap:4px; font-size:10px; color:#6b6259; font-family:system-ui, sans-serif;"><div style="width:18px; background:#5c4a3a; border-radius:3px 3px 0 0; height:44px;"></div><span>08-17</span></div>
+          <div style="display:flex; flex-direction:column; align-items:center; gap:4px; font-size:10px; color:#6b6259; font-family:system-ui, sans-serif;"><div style="width:18px; background:#5c4a3a; border-radius:3px 3px 0 0; height:53px;"></div><span>08-18</span></div>
+          <div style="display:flex; flex-direction:column; align-items:center; gap:4px; font-size:10px; color:#6b6259; font-family:system-ui, sans-serif;"><div style="width:18px; background:#5c4a3a; border-radius:3px 3px 0 0; height:64px;"></div><span>08-19</span></div>
+          <div style="display:flex; flex-direction:column; align-items:center; gap:4px; font-size:10px; color:#6b6259; font-family:system-ui, sans-serif;"><div style="width:18px; background:repeating-linear-gradient(135deg, #ddd, #ddd 2px, transparent 2px, transparent 4px); border-radius:3px 3px 0 0; height:4px;" title="08-20: not available"></div><span>08-20</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="status" data-screen-label="Status mix" style="margin-top:48px;">
+      <h1 style="font-weight:500; font-size:28px; margin:0 0 8px;">Status mix</h1>
+      <p style="color:#6b6259; max-width:62ch; margin:0;">D3 / 1253 · service_date. Cancellation value is the operationally interesting number.</p>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:12px; margin:16px 0;">
+        <div style="background:#fffdf9; border:1px solid #e2d8cc; border-radius:12px; padding:16px 18px;">
+          <span style="display:flex; flex-direction:column; gap:6px;">
+            <span style="font-family:system-ui, sans-serif; font-size:12px; color:#6b6259;">appt_value_by_status booked (n=1)</span>
+            <strong style="font-size:26px;">$230.00</strong>
+            <span style="display:inline-block; align-self:flex-start; font-family:system-ui, sans-serif; font-size:11px; border:1px solid #e2d8cc; border-radius:999px; padding:2px 8px; color:#6b6259;" title="measure appt_value_by_status · report 1253 · business date 2026-08-19" tabindex="0">D3 1253 2026-08-19</span>
+          </span>
+        </div>
+        <div style="background:#fffdf9; border:1px solid #e2d8cc; border-radius:12px; padding:16px 18px;">
+          <span style="display:flex; flex-direction:column; gap:6px;">
+            <span style="font-family:system-ui, sans-serif; font-size:12px; color:#6b6259;">appt_value_by_status closed (n=54)</span>
+            <strong style="font-size:26px;">$9,996.00</strong>
+            <span style="display:inline-block; align-self:flex-start; font-family:system-ui, sans-serif; font-size:11px; border:1px solid #e2d8cc; border-radius:999px; padding:2px 8px; color:#6b6259;" title="measure appt_value_by_status · report 1253 · business date 2026-08-19" tabindex="0">D3 1253 2026-08-19</span>
+          </span>
+        </div>
+        <div style="background:#fffdf9; border:1px solid #e2d8cc; border-radius:12px; padding:16px 18px;">
+          <span style="display:flex; flex-direction:column; gap:6px;">
+            <span style="font-family:system-ui, sans-serif; font-size:12px; color:#6b6259;">appt_value_by_status cancelled (n=22)</span>
+            <strong style="font-size:26px;">$4,521.00</strong>
+            <span style="display:inline-block; align-self:flex-start; font-family:system-ui, sans-serif; font-size:11px; border:1px solid #e2d8cc; border-radius:999px; padding:2px 8px; color:#6b6259;" title="measure appt_value_by_status · report 1253 · business date 2026-08-19" tabindex="0">D3 1253 2026-08-19</span>
+          </span>
+        </div>
+        <div style="background:#fffdf9; border:1px solid #e2d8cc; border-radius:12px; padding:16px 18px;">
+          <span style="display:flex; flex-direction:column; gap:6px;">
+            <span style="font-family:system-ui, sans-serif; font-size:12px; color:#6b6259;">appt_value_by_status waitlist (n=0)</span>
+            <strong style="font-size:26px;">$0.00</strong>
+            <span style="display:inline-block; align-self:flex-start; font-family:system-ui, sans-serif; font-size:11px; border:1px solid #e2d8cc; border-radius:999px; padding:2px 8px; color:#6b6259;" title="measure appt_value_by_status · report 1253 · business date 2026-08-19" tabindex="0">D3 1253 2026-08-19</span>
+          </span>
+        </div>
+      </div>
+      <p style="border-left:4px solid #8a3b12; padding-left:12px;">4521 cancelled dollars against 9996 closed. That ratio is a fact about this report, not a yield recommendation.</p>
+    </section>
+
+    <section id="booking-source" data-screen-label="Booking source" style="margin-top:48px;">
+      <h1 style="font-weight:500; font-size:28px; margin:0 0 8px;">Booking source mix</h1>
+      <p style="color:#6b6259; max-width:62ch; border-left:4px solid #8a3b12; padding-left:12px; margin:0;">Date basis is <strong>booking_date</strong>, not service_date. This page is not the same day's delivered business. Hypothesis H1 remains open.</p>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:12px; margin:16px 0;">
+        <div style="background:#fffdf9; border:1px solid #e2d8cc; border-radius:12px; padding:16px 18px;">
+          <span style="display:flex; flex-direction:column; gap:6px;">
+            <span style="font-family:system-ui, sans-serif; font-size:12px; color:#6b6259;">booking_value_by_source ONLINE (count 18, 887 bps)</span>
+            <strong style="font-size:26px;">$4,978.00</strong>
+            <span style="display:inline-block; align-self:flex-start; font-family:system-ui, sans-serif; font-size:11px; border:1px solid #e2d8cc; border-radius:999px; padding:2px 8px; color:#6b6259;" title="measure booking_value_by_source · report 1343 · business date 2026-08-19" tabindex="0">D5 1343 2026-08-19</span>
+          </span>
+        </div>
+        <div style="background:#fffdf9; border:1px solid #e2d8cc; border-radius:12px; padding:16px 18px;">
+          <span style="display:flex; flex-direction:column; gap:6px;">
+            <span style="font-family:system-ui, sans-serif; font-size:12px; color:#6b6259;">booking_value_by_source SPA (count 185, 9113 bps)</span>
+            <strong style="font-size:26px;">$41,358.00</strong>
+            <span style="display:inline-block; align-self:flex-start; font-family:system-ui, sans-serif; font-size:11px; border:1px solid #e2d8cc; border-radius:999px; padding:2px 8px; color:#6b6259;" title="measure booking_value_by_source · report 1343 · business date 2026-08-19" tabindex="0">D5 1343 2026-08-19</span>
+          </span>
+        </div>
+        <div style="background:#fffdf9; border:1px solid #e2d8cc; border-radius:12px; padding:16px 18px;">
+          <span style="display:flex; flex-direction:column; gap:6px;">
+            <span style="font-family:system-ui, sans-serif; font-size:12px; color:#6b6259;">booking_value_by_source MOBILE (count 0, 0 bps)</span>
+            <strong style="font-size:26px;">$0.00</strong>
+            <span style="display:inline-block; align-self:flex-start; font-family:system-ui, sans-serif; font-size:11px; border:1px solid #e2d8cc; border-radius:999px; padding:2px 8px; color:#6b6259;" title="measure booking_value_by_source · report 1343 · business date 2026-08-19" tabindex="0">D5 1343 2026-08-19</span>
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <section id="occupancy" data-screen-label="Occupancy" style="margin-top:48px;">
+      <h1 style="font-weight:500; font-size:28px; margin:0 0 8px;">Occupancy</h1>
+      <p style="color:#6b6259; max-width:62ch; margin:0;">D4 / 1524 · service_date. Fill% is not a headline metric.</p>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:12px; margin:16px 0;">
+        <div style="background:#fffdf9; border:1px solid #e2d8cc; border-radius:12px; padding:16px 18px;">
+          <span style="display:flex; flex-direction:column; gap:6px;">
+            <span style="font-family:system-ui, sans-serif; font-size:12px; color:#6b6259;">service_count_by_facility total</span>
+            <strong style="font-size:26px;">60</strong>
+            <span style="display:inline-block; align-self:flex-start; font-family:system-ui, sans-serif; font-size:11px; border:1px solid #e2d8cc; border-radius:999px; padding:2px 8px; color:#6b6259;" title="measure service_count_by_facility · report 1524 · business date 2026-08-19" tabindex="0">D4 1524 2026-08-19</span>
+          </span>
+        </div>
+        <div style="background:#fffdf9; border:1px solid #e2d8cc; border-radius:12px; padding:16px 18px;">
+          <span style="display:flex; flex-direction:column; gap:6px;">
+            <span style="font-family:system-ui, sans-serif; font-size:12px; color:#6b6259;">service_value_by_facility total</span>
+            <strong style="font-size:26px;">$10,806.00</strong>
+            <span style="display:inline-block; align-self:flex-start; font-family:system-ui, sans-serif; font-size:11px; border:1px solid #e2d8cc; border-radius:999px; padding:2px 8px; color:#6b6259;" title="measure service_value_by_facility · report 1524 · business date 2026-08-19" tabindex="0">D4 1524 2026-08-19</span>
+          </span>
+        </div>
+        <div style="background:#fffdf9; border:1px solid #e2d8cc; border-radius:12px; padding:16px 18px;">
+          <span style="display:flex; flex-direction:column; gap:6px;">
+            <span style="font-family:system-ui, sans-serif; font-size:12px; color:#6b6259;">facility_fill_pct overall</span>
+            <strong style="font-size:26px;">3.73%</strong>
+            <span style="display:inline-block; align-self:flex-start; font-family:system-ui, sans-serif; font-size:11px; border:1px solid #e2d8cc; border-radius:999px; padding:2px 8px; color:#6b6259;" title="measure facility_fill_pct · report 1524 · business date 2026-08-19" tabindex="0">D4 1524 2026-08-19</span>
+            <span style="color:#8a3b12; font-family:system-ui, sans-serif; font-size:12px;">unvalidated — capacity denominator unknown (H5)</span>
+          </span>
+        </div>
+        <div style="background:#fffdf9; border:1px solid #e2d8cc; border-radius:12px; padding:16px 18px;">
+          <span style="display:flex; flex-direction:column; gap:6px;">
+            <span style="font-family:system-ui, sans-serif; font-size:12px; color:#6b6259;">facility_fill_pct hottest</span>
+            <strong style="font-size:26px;">34.48%</strong>
+            <span style="display:inline-block; align-self:flex-start; font-family:system-ui, sans-serif; font-size:11px; border:1px solid #e2d8cc; border-radius:999px; padding:2px 8px; color:#6b6259;" title="measure facility_fill_pct · report 1524 · business date 2026-08-19" tabindex="0">D4 1524 2026-08-19</span>
+            <span style="color:#8a3b12; font-family:system-ui, sans-serif; font-size:12px;">unvalidated — not comparable to overall without the denominator</span>
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <section id="turnaway" data-screen-label="Turnaway" style="margin-top:48px;">
+      <h1 style="font-weight:500; font-size:28px; margin:0 0 8px;">Turnaway</h1>
+      <p style="border-left:4px solid #8a3b12; padding-left:12px;">Insufficient data to characterize turnaway. n=1 is not a pattern. The 100% "Price of Service" share is an artifact of a single record — no percentage visualization is drawn.</p>
+      <div style="background:#fffdf9; border:1px solid #e2d8cc; border-radius:12px; padding:16px 18px; margin:16px 0;">
+        <span style="display:flex; flex-direction:column; gap:6px;">
+          <span style="font-family:system-ui, sans-serif; font-size:12px; color:#6b6259;">turnaway_count 1 · turnaway_value</span>
+          <strong style="font-size:26px;">$149.00</strong>
+          <span style="display:inline-block; align-self:flex-start; font-family:system-ui, sans-serif; font-size:11px; border:1px solid #e2d8cc; border-radius:999px; padding:2px 8px; color:#6b6259;" title="measure turnaway_value · report none · business date 2026-08-19" tabindex="0">D6 2026-08-19</span>
+        </span>
+      </div>
+    </section>
+
+    <section id="labor" data-screen-label="Labor" style="margin-top:48px;">
+      <h1 style="font-weight:500; font-size:28px; margin:0 0 8px;">Labor</h1>
+      <p style="color:#6b6259; max-width:62ch; margin:0;">Three hour components, separately. The source 57% is shown with formula unknown. No competing utilization is computed. See H6.</p>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:12px; margin:16px 0;">
+        <div style="background:#fffdf9; border:1px solid #e2d8cc; border-radius:12px; padding:16px 18px;">
+          <span style="display:flex; flex-direction:column; gap:6px;">
+            <span style="font-family:system-ui, sans-serif; font-size:12px; color:#6b6259;">labor_client_count</span>
+            <strong style="font-size:26px;">52</strong>
+            <span style="display:inline-block; align-self:flex-start; font-family:system-ui, sans-serif; font-size:11px; border:1px solid #e2d8cc; border-radius:999px; padding:2px 8px; color:#6b6259;" title="measure labor_client_count · report 1243 · business date 2026-08-19" tabindex="0">D8 1243 2026-08-19</span>
+          </span>
+        </div>
+        <div style="background:#fffdf9; border:1px solid #e2d8cc; border-radius:12px; padding:16px 18px;">
+          <span style="display:flex; flex-direction:column; gap:6px;">
+            <span style="font-family:system-ui, sans-serif; font-size:12px; color:#6b6259;">labor_service_hours</span>
+            <strong style="font-size:26px;">56.50</strong>
+            <span style="display:inline-block; align-self:flex-start; font-family:system-ui, sans-serif; font-size:11px; border:1px solid #e2d8cc; border-radius:999px; padding:2px 8px; color:#6b6259;" title="measure labor_service_hours · report 1243 · business date 2026-08-19" tabindex="0">D8 1243 2026-08-19</span>
+          </span>
+        </div>
+        <div style="background:#fffdf9; border:1px solid #e2d8cc; border-radius:12px; padding:16px 18px;">
+          <span style="display:flex; flex-direction:column; gap:6px;">
+            <span style="font-family:system-ui, sans-serif; font-size:12px; color:#6b6259;">labor_booked_hours</span>
+            <strong style="font-size:26px;">73.25</strong>
+            <span style="display:inline-block; align-self:flex-start; font-family:system-ui, sans-serif; font-size:11px; border:1px solid #e2d8cc; border-radius:999px; padding:2px 8px; color:#6b6259;" title="measure labor_booked_hours · report 1243 · business date 2026-08-19" tabindex="0">D8 1243 2026-08-19</span>
+          </span>
+        </div>
+        <div style="background:#fffdf9; border:1px solid #e2d8cc; border-radius:12px; padding:16px 18px;">
+          <span style="display:flex; flex-direction:column; gap:6px;">
+            <span style="font-family:system-ui, sans-serif; font-size:12px; color:#6b6259;">labor_scheduled_hours</span>
+            <strong style="font-size:26px;">224.75</strong>
+            <span style="display:inline-block; align-self:flex-start; font-family:system-ui, sans-serif; font-size:11px; border:1px solid #e2d8cc; border-radius:999px; padding:2px 8px; color:#6b6259;" title="measure labor_scheduled_hours · report 1243 · business date 2026-08-19" tabindex="0">D8 1243 2026-08-19</span>
+          </span>
+        </div>
+        <div style="background:#fffdf9; border:1px solid #e2d8cc; border-radius:12px; padding:16px 18px;">
+          <span style="display:flex; flex-direction:column; gap:6px;">
+            <span style="font-family:system-ui, sans-serif; font-size:12px; color:#6b6259;">labor_utilization_pct_reported</span>
+            <strong style="font-size:26px;">57%</strong>
+            <span style="display:inline-block; align-self:flex-start; font-family:system-ui, sans-serif; font-size:11px; border:1px solid #e2d8cc; border-radius:999px; padding:2px 8px; color:#6b6259;" title="measure labor_utilization_pct_reported · report 1243 · business date 2026-08-19" tabindex="0">D8 1243 2026-08-19</span>
+            <span style="color:#8a3b12; font-family:system-ui, sans-serif; font-size:12px;">formula unknown — not recomputed from the three hour components (H6)</span>
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <section id="coverage" data-screen-label="Coverage" style="margin-top:48px;">
+      <h1 style="font-weight:500; font-size:28px; margin:0 0 8px;">Coverage</h1>
+      <p style="color:#6b6259; max-width:62ch; margin:0;">Descriptive only — where D1 hourly demand and D10 scheduled hours disagree. No staffing recommendation (gated at P7).</p>
+      <div style="background:#fffdf9; border:1px solid #e2d8cc; border-radius:12px; padding:16px 18px; margin:16px 0;">
+        <div style="font-family:system-ui, sans-serif; font-size:12px; color:#6b6259;">date basis: <strong>service_date</strong> · measure: <strong>appt_count_by_hour</strong></div>
+        <div style="display:flex; gap:6px; align-items:flex-end; height:100px; margin-top:8px;">
+          <div style="display:flex; flex-direction:column; align-items:center; gap:4px; font-size:10px; color:#6b6259; font-family:system-ui, sans-serif;"><div style="width:18px; background:#5c4a3a; border-radius:3px 3px 0 0; height:29px;"></div><span>9</span></div>
+          <div style="display:flex; flex-direction:column; align-items:center; gap:4px; font-size:10px; color:#6b6259; font-family:system-ui, sans-serif;"><div style="width:18px; background:#5c4a3a; border-radius:3px 3px 0 0; height:44px;"></div><span>10</span></div>
+          <div style="display:flex; flex-direction:column; align-items:center; gap:4px; font-size:10px; color:#6b6259; font-family:system-ui, sans-serif;"><div style="width:18px; background:#5c4a3a; border-radius:3px 3px 0 0; height:51px;"></div><span>11</span></div>
+          <div style="display:flex; flex-direction:column; align-items:center; gap:4px; font-size:10px; color:#6b6259; font-family:system-ui, sans-serif;"><div style="width:18px; background:#5c4a3a; border-radius:3px 3px 0 0; height:36px;"></div><span>12</span></div>
+          <div style="display:flex; flex-direction:column; align-items:center; gap:4px; font-size:10px; color:#6b6259; font-family:system-ui, sans-serif;"><div style="width:18px; background:#5c4a3a; border-radius:3px 3px 0 0; height:58px;"></div><span>13</span></div>
+          <div style="display:flex; flex-direction:column; align-items:center; gap:4px; font-size:10px; color:#6b6259; font-family:system-ui, sans-serif;"><div style="width:18px; background:#5c4a3a; border-radius:3px 3px 0 0; height:80px;"></div><span>14</span></div>
+          <div style="display:flex; flex-direction:column; align-items:center; gap:4px; font-size:10px; color:#6b6259; font-family:system-ui, sans-serif;"><div style="width:18px; background:#5c4a3a; border-radius:3px 3px 0 0; height:65px;"></div><span>15</span></div>
+          <div style="display:flex; flex-direction:column; align-items:center; gap:4px; font-size:10px; color:#6b6259; font-family:system-ui, sans-serif;"><div style="width:18px; background:#5c4a3a; border-radius:3px 3px 0 0; height:44px;"></div><span>16</span></div>
+          <div style="display:flex; flex-direction:column; align-items:center; gap:4px; font-size:10px; color:#6b6259; font-family:system-ui, sans-serif;"><div style="width:18px; background:#5c4a3a; border-radius:3px 3px 0 0; height:22px;"></div><span>17</span></div>
+        </div>
+      </div>
+      <p style="border-left:4px solid #8a3b12; padding-left:12px;">Hourly scheduled capacity is not available (D10 grain is technician × day). Scheduled hours total 80.00 — not spread across hours (I3, I5). Divergence is visible as demand concentrating at 14:00 against a daily scheduled pool.</p>
+    </section>
+
+    <section id="forward-book" data-screen-label="Forward book" style="margin-top:48px;">
+      <h1 style="font-weight:500; font-size:28px; margin:0 0 8px;">Forward book</h1>
+      <div style="background:#f8ece6; border:1px solid #e2d8cc; border-radius:12px; padding:16px 18px; margin:16px 0;">
+        <p style="margin:0 0 8px;"><strong>Blocked</strong> · report 1656 · NullReferenceException · since 2026-08-20</p>
+        <p style="color:#6b6259; max-width:62ch; margin:0 0 12px;">This is the highest-value report in the set and the broken one. Chase Book4Time. When it is fixed upstream, ingest lights this page — no new UI work.</p>
+        <form style="display:flex; gap:8px; align-items:center;">
+          <input placeholder="Why this is safe to unblock" style="font:inherit; font-family:system-ui, sans-serif;">
+          <button type="button" style="font:inherit; font-family:system-ui, sans-serif; background:#5c4a3a; color:white; border:0; border-radius:8px; padding:8px 12px; cursor:pointer;">Unblock (admin, audited)</button>
+        </form>
+      </div>
+    </section>
+
+    <section id="feeds" data-screen-label="Feeds" style="margin-top:48px;">
+      <h1 style="font-weight:500; font-size:28px; margin:0 0 8px;">Feed adapters</h1>
+      <p style="color:#6b6259; max-width:62ch; margin:0 0 16px;">Honest empty states. Zero synthetic rows. All feeds arrive as Veluma envelopes.</p>
+      <table style="width:100%; border-collapse:collapse; font-family:system-ui, sans-serif; font-size:13px;">
+        <thead>
+          <tr>
+            <th style="text-align:left; padding:8px 6px; border-bottom:1px solid #e2d8cc;">feed_key</th>
+            <th style="text-align:left; padding:8px 6px; border-bottom:1px solid #e2d8cc;">status</th>
+            <th style="text-align:left; padding:8px 6px; border-bottom:1px solid #e2d8cc;">notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">b4t_appt_by_hour</td><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">configured</td><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">appointment-analysis-by-hour</td></tr>
+          <tr><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">b4t_pos_sales_by_hour</td><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">configured</td><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">sales-by-hour (POS)</td></tr>
+          <tr><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">b4t_appt_by_status</td><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">configured</td><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">appointment-analysis-by-status</td></tr>
+          <tr><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">b4t_occupancy</td><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">configured</td><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">facility-occupancy-analysis</td></tr>
+          <tr><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">b4t_booking_by_source</td><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">configured</td><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">booking-analysis-by-source</td></tr>
+          <tr><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">b4t_turnaway</td><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">configured</td><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">turnaway-tracking</td></tr>
+          <tr><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">b4t_future_revenues</td><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">blocked</td><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">future-revenues NullReferenceException</td></tr>
+          <tr><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">b4t_hours_work_summary</td><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">configured</td><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">hours-work-summary</td></tr>
+          <tr><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">b4t_service_by_day</td><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">configured</td><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">service-analysis-by-day</td></tr>
+          <tr><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">b4t_tech_weekly_schedule</td><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">configured</td><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">technician-weekly-schedule</td></tr>
+          <tr><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">pms_hotel_occupancy</td><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">not_configured</td><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">Fairmont PMS — organizational ask</td></tr>
+          <tr><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">b4t_service_price_master</td><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">not_configured</td><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">blocks G3/G4</td></tr>
+          <tr><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">b4t_price_change_history</td><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">not_configured</td><td style="padding:8px 6px; border-bottom:1px solid #e2d8cc;">blocks G3</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="veluma" data-screen-label="Veluma" style="margin-top:48px;">
+      <h1 style="font-weight:500; font-size:28px; margin:0 0 8px;">Veluma transport</h1>
+      <p style="color:#6b6259; max-width:62ch; margin:0;">Day-one transport is file-drop of the same envelope Book4Time will automate into Veluma. Live pull/webhook is config, not code. Secrets are server-env only and are never rendered back.</p>
+      <div style="background:#fffdf9; border:1px solid #e2d8cc; border-radius:12px; padding:16px 18px; margin:16px 0;">
+        <p style="margin:0 0 6px;">Base URL set: no</p>
+        <p style="margin:0 0 6px;">API key set: no</p>
+        <p style="margin:0 0 6px;">Webhook secret set: no</p>
+        <p style="margin:0 0 6px;">Poll interval: not set</p>
+        <p style="margin:0;">Mode: file-drop</p>
+      </div>
+      <p style="font-family:system-ui, sans-serif; font-size:12px; color:#6b6259;">Set VELUMA_* in server env. There is no client field for secrets (I13).</p>
+    </section>
+
+    <section id="gates" data-screen-label="Sufficiency gates" style="margin-top:48px;">
+      <h1 style="font-weight:500; font-size:28px; margin:0 0 8px;">Sufficiency gates</h1>
+      <p style="color:#6b6259; max-width:62ch; margin:0;">Can we make a pricing decision yet? Today the honest answer is no. These values are computed from the database and will turn themselves on when the collection plan lands.</p>
+      <article style="background:#f8ece6; border:1px solid #e2d8cc; border-radius:12px; padding:16px 18px; margin:16px 0;">
+        <h2 style="font-weight:500; margin:0 0 8px;">G1_observation_count FAIL</h2>
+        <p style="margin:0 0 8px;">Observation count</p>
+        <p style="font-family:system-ui, sans-serif; font-size:12px; color:#6b6259; margin:0;">Threshold: ≥ 730 daily observations</p>
+        <p style="font-family:system-ui, sans-serif; font-size:12px; color:#6b6259; margin:0 0 8px;">Current: 15 distinct business dates</p>
+        <p style="margin:0;">Collect 24–36 months of daily history at record grain, not report totals.</p>
+      </article>
+      <article style="background:#f8ece6; border:1px solid #e2d8cc; border-radius:12px; padding:16px 18px; margin:16px 0;">
+        <h2 style="font-weight:500; margin:0 0 8px;">G2_seasonal_coverage FAIL</h2>
+        <p style="margin:0 0 8px;">Seasonal coverage</p>
+        <p style="font-family:system-ui, sans-serif; font-size:12px; color:#6b6259; margin:0;">Threshold: ≥ 24 months spanning all quarters</p>
+        <p style="font-family:system-ui, sans-serif; font-size:12px; color:#6b6259; margin:0 0 8px;">Current: 1 month span, quarters seen: 1</p>
+        <p style="margin:0;">Need a full two years including high season. August-only is the least representative window.</p>
+      </article>
+      <article style="background:#f8ece6; border:1px solid #e2d8cc; border-radius:12px; padding:16px 18px; margin:16px 0;">
+        <h2 style="font-weight:500; margin:0 0 8px;">G3_price_variation FAIL</h2>
+        <p style="margin:0 0 8px;">Price variation</p>
+        <p style="font-family:system-ui, sans-serif; font-size:12px; color:#6b6259; margin:0;">Threshold: ≥ 3 distinct prices per service, ≥ 5% spread</p>
+        <p style="font-family:system-ui, sans-serif; font-size:12px; color:#6b6259; margin:0 0 8px;">Current: 0 distinct prices in feed</p>
+        <p style="margin:0;">Need versioned price change history. Elasticity is unidentifiable at one price.</p>
+      </article>
+      <article style="background:#f8ece6; border:1px solid #e2d8cc; border-radius:12px; padding:16px 18px; margin:16px 0;">
+        <h2 style="font-weight:500; margin:0 0 8px;">G4_service_master FAIL</h2>
+        <p style="margin:0 0 8px;">Service &amp; price master</p>
+        <p style="font-family:system-ui, sans-serif; font-size:12px; color:#6b6259; margin:0;">Threshold: present, versioned</p>
+        <p style="font-family:system-ui, sans-serif; font-size:12px; color:#6b6259; margin:0 0 8px;">Current: absent</p>
+        <p style="margin:0;">Drop a b4t_service_price_master envelope via Veluma/file-drop.</p>
+      </article>
+      <article style="background:#f8ece6; border:1px solid #e2d8cc; border-radius:12px; padding:16px 18px; margin:16px 0;">
+        <h2 style="font-weight:500; margin:0 0 8px;">G5_revenue_definition FAIL</h2>
+        <p style="margin:0 0 8px;">Revenue definition</p>
+        <p style="font-family:system-ui, sans-serif; font-size:12px; color:#6b6259; margin:0;">Threshold: ≥ 1 promoted measure definition</p>
+        <p style="font-family:system-ui, sans-serif; font-size:12px; color:#6b6259; margin:0 0 8px;">Current: 0 promoted</p>
+        <p style="margin:0;">An admin must promote a hypothesis (H4 is the strongest candidate). Do not force.</p>
+      </article>
+      <article style="background:#f8ece6; border:1px solid #e2d8cc; border-radius:12px; padding:16px 18px; margin:16px 0;">
+        <h2 style="font-weight:500; margin:0 0 8px;">G6_demand_covariate FAIL</h2>
+        <p style="margin:0 0 8px;">Hotel occupancy covariate</p>
+        <p style="font-family:system-ui, sans-serif; font-size:12px; color:#6b6259; margin:0;">Threshold: hotel occupancy or group-block feed present</p>
+        <p style="font-family:system-ui, sans-serif; font-size:12px; color:#6b6259; margin:0 0 8px;">Current: absent</p>
+        <p style="margin:0;">Fairmont PMS occupancy via Veluma feed_key pms_hotel_occupancy.</p>
+      </article>
+      <article style="background:#f8ece6; border:1px solid #e2d8cc; border-radius:12px; padding:16px 18px; margin:16px 0;">
+        <h2 style="font-weight:500; margin:0 0 8px;">G7_forward_book FAIL</h2>
+        <p style="margin:0 0 8px;">Forward book (1656)</p>
+        <p style="font-family:system-ui, sans-serif; font-size:12px; color:#6b6259; margin:0;">Threshold: D7/1656 status = active</p>
+        <p style="font-family:system-ui, sans-serif; font-size:12px; color:#6b6259; margin:0 0 8px;">Current: blocked NullReferenceException</p>
+        <p style="margin:0;">Book4Time must fix NullReferenceException on report 1656, then an admin unblocks D7.</p>
+      </article>
+    </section>
+
+    <section id="pricing" data-screen-label="Pricing" style="margin-top:48px;">
+      <h1 style="font-weight:500; font-size:28px; margin:0 0 8px;">Pricing workbench</h1>
+      <p style="border-left:4px solid #8a3b12; padding-left:12px;">No elasticity estimate and no price recommendation. Forcing a number requires a code change, not a toggle.</p>
+      <p><a href="#gates" style="color:#5c4a3a;">See sufficiency gates</a> for what would turn this page on.</p>
+      <ul style="max-width:62ch;">
+        <li>G1_observation_count: Collect 24–36 months of daily history at record grain, not report totals.</li>
+        <li>G2_seasonal_coverage: Need a full two years including high season. August-only is the least representative window.</li>
+        <li>G3_price_variation: Need versioned price change history. Elasticity is unidentifiable at one price.</li>
+        <li>G4_service_master: Drop a b4t_service_price_master envelope via Veluma/file-drop.</li>
+        <li>G5_revenue_definition: An admin must promote a hypothesis (H4 is the strongest candidate). Do not force.</li>
+        <li>G6_demand_covariate: Fairmont PMS occupancy via Veluma feed_key pms_hotel_occupancy.</li>
+        <li>G7_forward_book: Book4Time must fix NullReferenceException on report 1656, then an admin unblocks D7.</li>
+      </ul>
+    </section>
+  </main>
+</div>
+</x-dc>
+</body>
+</html>
