@@ -4,23 +4,44 @@ import { StatGrid } from "@/components/StatGrid";
 import { getDb } from "@/lib/runtime";
 import { activeFacts, provenanceOf } from "@/lib/queries/facts";
 import { fromCents, toDisplay } from "@/lib/money";
-
-const DAY = "2026-08-19";
+import { latestDeliveredDay } from "@/lib/business-day";
 
 export default async function TurnawayPage() {
   const db = await getDb();
   const counts = await activeFacts(db, { measureKey: "turnaway_count" });
   const values = await activeFacts(db, { measureKey: "turnaway_value" });
-  const n = counts.find((f) => f.businessDate === DAY && f.isTotalRow);
-  const v = values.find((f) => f.businessDate === DAY && f.isTotalRow);
+
+  // I5 — the business day is the latest date D6 delivered, never hardcoded.
+  const day = latestDeliveredDay([...counts, ...values]);
+  if (day === null) {
+    return (
+      <>
+        <PageHeader
+          kicker="D6 · turnaway log · service date"
+          title="Turnaway"
+          lede="Demand that arrived and was not served."
+        />
+        <section className="panel-dotted">
+          <div className="panel-dotted-title">Not available</div>
+          <p className="note">
+            The turnaway log (D6) has delivered no business day yet, so there is no date to show.
+            Absent is not zero — nothing is rendered as 0 (I5).
+          </p>
+        </section>
+      </>
+    );
+  }
+
+  const n = counts.find((f) => f.businessDate === day && f.isTotalRow);
+  const v = values.find((f) => f.businessDate === day && f.isTotalRow);
   const reasonRow = counts.find(
-    (f) => f.businessDate === DAY && f.dimensionType === "reason",
+    (f) => f.businessDate === day && f.dimensionType === "reason",
   );
 
   return (
     <>
       <PageHeader
-        kicker="D6 · turnaway log · service date"
+        kicker={`D6 · turnaway log · service date ${day}`}
         title="Turnaway"
         lede="Demand that arrived and was not served. A single record exists — enough to display, not enough to characterize."
       />

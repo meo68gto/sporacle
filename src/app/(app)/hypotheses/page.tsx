@@ -7,6 +7,7 @@ import { activeFacts } from "@/lib/queries/facts";
 import { requireUser } from "@/lib/auth/request";
 import { can } from "@/lib/auth/roles";
 import { fromCents, toDisplay } from "@/lib/money";
+import { latestDeliveredDay } from "@/lib/business-day";
 import { addHypothesisAction, promoteAction } from "./actions";
 
 /**
@@ -93,12 +94,9 @@ export default async function HypothesesPage({
   // This is a display-only annotation of the hypothesis's arithmetic claim,
   // not Measure arithmetic feeding any computation (I2, CLAUDE.md §5).
   const all = await activeFacts(db);
-  const day =
-    all
-      .filter((f) => f.measureKey === "appt_value_by_hour" && f.isTotalRow)
-      .map((f) => f.businessDate)
-      .sort()
-      .at(-1) ?? null;
+  // I5 — shared derivation (same rule addHypothesisAction uses): the exhibit's
+  // day is the latest one D1 delivered a total row for, never hardcoded.
+  const day = latestDeliveredDay(all, { measureKeys: ["appt_value_by_hour"], totalRowsOnly: true });
   const onDay = day ? all.filter((f) => f.businessDate === day) : [];
   const d3closed = onDay.find((f) => f.measureKey === "appt_value_by_status" && f.dimensionValue === "closed");
   const d3booked = onDay.find((f) => f.measureKey === "appt_value_by_status" && f.dimensionValue === "booked");

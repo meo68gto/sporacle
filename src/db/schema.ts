@@ -30,6 +30,10 @@ export const ingestRun = pgTable(
     id: text("id").primaryKey(),
     sourceId: text("source_id").notNull(),
     transport: text("transport").notNull(),
+    // B2/veluma_events: delivery_id is stamped ONLY when a run reaches terminal
+    // "success" (in the same transaction as its event rows). A run that crashes
+    // mid-batch never occupies the key, so an upstream retry is processed
+    // instead of colliding with the partial unique index below.
     deliveryId: text("delivery_id"),
     feedKey: text("feed_key"),
     payloadSha256: text("payload_sha256"),

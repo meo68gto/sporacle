@@ -5,31 +5,52 @@ import { StatGrid } from "@/components/StatGrid";
 import { getDb } from "@/lib/runtime";
 import { activeFacts, provenanceOf } from "@/lib/queries/facts";
 import { fromCents, toDisplay } from "@/lib/money";
-
-const DAY = "2026-08-19";
+import { latestDeliveredDay } from "@/lib/business-day";
 
 export default async function OccupancyPage() {
   const db = await getDb();
   const values = await activeFacts(db, { measureKey: "service_value_by_facility" });
   const counts = await activeFacts(db, { measureKey: "service_count_by_facility" });
   const fill = await activeFacts(db, { measureKey: "facility_fill_pct" });
+
+  // I5 — the business day is the latest date D4 delivered, never hardcoded.
+  const day = latestDeliveredDay([...values, ...counts, ...fill]);
+  if (day === null) {
+    return (
+      <>
+        <PageHeader
+          kicker="D4 · report 1524 · service date"
+          title="Occupancy"
+          lede="Service counts and value by facility from a single report. Fill % is unvalidated — the capacity denominator is unverified (H5) — so it is never a headline here."
+        />
+        <section className="panel-dotted">
+          <div className="panel-dotted-title">Not available</div>
+          <p className="note">
+            Report 1524 (D4) has delivered no business day yet, so there is no date to show. Absent
+            is not zero — nothing is rendered as 0 (I5).
+          </p>
+        </section>
+      </>
+    );
+  }
+
   const facilities = values
-    .filter((f) => f.businessDate === DAY && f.dimensionType === "facility")
+    .filter((f) => f.businessDate === day && f.dimensionType === "facility")
     .sort((a, b) => b.valueNumeric - a.valueNumeric);
   const countOf = (s: string | null) =>
     counts.find(
-      (f) => f.businessDate === DAY && f.dimensionType === "facility" && f.dimensionValue === s,
+      (f) => f.businessDate === day && f.dimensionType === "facility" && f.dimensionValue === s,
     );
-  const totalV = values.find((f) => f.businessDate === DAY && f.isTotalRow);
-  const totalC = counts.find((f) => f.businessDate === DAY && f.isTotalRow);
-  const overallFill = fill.find((f) => f.businessDate === DAY && f.isTotalRow);
-  const hottest = fill.find((f) => f.businessDate === DAY && f.dimensionType === "hottest");
+  const totalV = values.find((f) => f.businessDate === day && f.isTotalRow);
+  const totalC = counts.find((f) => f.businessDate === day && f.isTotalRow);
+  const overallFill = fill.find((f) => f.businessDate === day && f.isTotalRow);
+  const hottest = fill.find((f) => f.businessDate === day && f.dimensionType === "hottest");
   const firstFacility = facilities[0];
 
   return (
     <>
       <PageHeader
-        kicker="D4 · report 1524 · service date"
+        kicker={`D4 · report 1524 · service date ${day}`}
         title="Occupancy"
         lede="Service counts and value by facility from a single report. Fill % is unvalidated — the capacity denominator is unverified (H5) — so it is never a headline here."
       />
@@ -143,7 +164,7 @@ export default async function OccupancyPage() {
             </tbody>
           </table>
           <div className="table-wrap-foot">
-            Values are the report&apos;s claims for {DAY}.{" "}
+            Values are the report&apos;s claims for {day}.{" "}
             {firstFacility ? (
               <ProvenanceChip provenance={provenanceOf(firstFacility)}>D4 · 1524</ProvenanceChip>
             ) : null}

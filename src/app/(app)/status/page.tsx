@@ -4,16 +4,38 @@ import { ProvenanceChip } from "@/components/ProvenanceChip";
 import { getDb } from "@/lib/runtime";
 import { activeFacts, provenanceOf } from "@/lib/queries/facts";
 import { fromCents, toDisplay } from "@/lib/money";
+import { latestDeliveredDay } from "@/lib/business-day";
 
-const DAY = "2026-08-19";
 const ORDER = ["closed", "cancelled", "booked", "waitlist"];
 
 export default async function StatusPage() {
   const db = await getDb();
   const values = await activeFacts(db, { measureKey: "appt_value_by_status" });
   const counts = await activeFacts(db, { measureKey: "appt_count_by_status" });
-  const dayValues = values.filter((f) => f.businessDate === DAY && f.dimensionType === "status");
-  const dayCounts = counts.filter((f) => f.businessDate === DAY && f.dimensionType === "status");
+
+  // I5 — the business day is the latest date D3 delivered, never hardcoded.
+  const day = latestDeliveredDay([...values, ...counts]);
+  if (day === null) {
+    return (
+      <>
+        <PageHeader
+          kicker="D3 · report 1253 · service date"
+          title="Status mix"
+          lede="Four statuses from one report, one grain, one basis. The cancellation figure is the one worth a conversation."
+        />
+        <section className="panel-dotted">
+          <div className="panel-dotted-title">Not available</div>
+          <p className="note">
+            Report 1253 (D3) has delivered no business day yet, so there is no date to show. Absent
+            is not zero — nothing is rendered as 0 (I5).
+          </p>
+        </section>
+      </>
+    );
+  }
+
+  const dayValues = values.filter((f) => f.businessDate === day && f.dimensionType === "status");
+  const dayCounts = counts.filter((f) => f.businessDate === day && f.dimensionType === "status");
   const valueOf = (s: string) => dayValues.find((f) => f.dimensionValue === s);
   const countOf = (s: string) => dayCounts.find((f) => f.dimensionValue === s);
 
@@ -39,7 +61,7 @@ export default async function StatusPage() {
   return (
     <>
       <PageHeader
-        kicker="D3 · report 1253 · service date"
+        kicker={`D3 · report 1253 · service date ${day}`}
         title="Status mix"
         lede="Four statuses from one report, one grain, one basis. The cancellation figure is the one worth a conversation."
       />

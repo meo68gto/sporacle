@@ -12,6 +12,9 @@ const schema = z.object({
   VELUMA_API_KEY: z.string().optional(),
   VELUMA_WEBHOOK_SECRET: z.string().optional(),
   VELUMA_POLL_INTERVAL: z.string().optional(),
+  // I13/I2 — expected property id for the Veluma events feed, pinned server-side.
+  // Records whose envelope disagrees are acked skipped (property_mismatch), never stored.
+  VELUMA_PROPERTY_ID: z.string().min(1).default("FSP"),
 });
 
 export type ServerEnv = z.infer<typeof schema>;
@@ -29,6 +32,7 @@ export function serverEnv(): ServerEnv {
     VELUMA_API_KEY: process.env.VELUMA_API_KEY,
     VELUMA_WEBHOOK_SECRET: process.env.VELUMA_WEBHOOK_SECRET,
     VELUMA_POLL_INTERVAL: process.env.VELUMA_POLL_INTERVAL,
+    VELUMA_PROPERTY_ID: process.env.VELUMA_PROPERTY_ID,
   });
   return cached;
 }

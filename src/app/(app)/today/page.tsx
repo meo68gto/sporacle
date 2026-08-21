@@ -11,6 +11,8 @@ import { varianceLines } from "@/lib/reconciliation/variance";
 import { ingestRun, source } from "@/db/schema";
 import { fromCents, toDisplay } from "@/lib/money";
 import { BUSINESS_TIME_ZONE } from "@/lib/date";
+import { latestDeliveredDay } from "@/lib/business-day";
+import { SOURCE_SEED } from "@/db/sources";
 
 /**
  * Today — the daily reading (design spec §3.1). Every figure is read from
@@ -64,9 +66,9 @@ export default async function TodayPage() {
   const db = await getDb();
   const all = await activeFacts(db);
 
-  // The business day is the latest date for which D1 delivered a total row.
-  const d1Totals = all.filter((f) => f.measureKey === "appt_count_by_hour" && f.isTotalRow);
-  const day = d1Totals.map((f) => f.businessDate).sort().at(-1) ?? null;
+  // The business day is the latest date for which D1 delivered a total row
+  // (shared derivation — I5: derived from deliveries, never hardcoded).
+  const day = latestDeliveredDay(all, { measureKeys: ["appt_count_by_hour"], totalRowsOnly: true });
   const onDay = day ? all.filter((f) => f.businessDate === day) : [];
   const find = (measureKey: string, extra: (f: FactRow) => boolean = () => true) =>
     onDay.find((f) => f.measureKey === measureKey && extra(f));
@@ -76,7 +78,13 @@ export default async function TodayPage() {
     .select({ sourceId: ingestRun.sourceId, status: ingestRun.status, deliveredAt: ingestRun.deliveredAt })
     .from(ingestRun);
   const sources = await db.select({ id: source.id }).from(source);
-  const okRuns = runs.filter((r) => r.status === "success");
+  // I3 — the "N of M sources delivered" headline counts only the registered
+  // report sources (SOURCE_SEED). Operational feed rows (e.g. the Veluma
+  // events receiver) are not report sources and must never inflate either
+  // the numerator or the denominator.
+  const reportSourceIds = new Set<string>(SOURCE_SEED.map((s) => s.id));
+  const reportSources = sources.filter((s) => reportSourceIds.has(s.id));
+  const okRuns = runs.filter((r) => r.status === "success" && reportSourceIds.has(r.sourceId));
   const lastDelivered = okRuns
     .map((r) => r.deliveredAt)
     .filter((d): d is Date => d !== null)
@@ -146,7 +154,9 @@ export default async function TodayPage() {
             <div className="page-header-stat-label">Last ingest</div>
             <div className="page-header-stat-value">{lastDelivered ? phoenixTime(lastDelivered) : <span className="na">Not available</span>}</div>
             <div className="page-header-stat-sub">
-              {sources.length > 0 ? `${deliveredSources} of ${sources.length} sources delivered` : "source registry empty"}
+              {reportSources.length > 0
+                ? `${deliveredSources} of ${reportSources.length} sources delivered`
+                : "source registry empty"}
             </div>
           </>
         }

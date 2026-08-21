@@ -4,21 +4,56 @@ import { StatusBadge } from "@/components/StatusBadge";
 import { getDb } from "@/lib/runtime";
 import { activeFacts, provenanceOf } from "@/lib/queries/facts";
 import { fromCents, toDisplay } from "@/lib/money";
-
-const DAY = "2026-08-19";
+import { latestDeliveredDay } from "@/lib/business-day";
 
 export default async function BookingSourcePage() {
   const db = await getDb();
   const values = await activeFacts(db, { measureKey: "booking_value_by_source" });
   const counts = await activeFacts(db, { measureKey: "booking_count_by_source" });
+
+  // I5 — the business day is the latest date D5 delivered, never hardcoded.
+  // D5 is on booking_date (I6): the derived day is a day bookings were
+  // created, not a day services were delivered.
+  const day = latestDeliveredDay([...values, ...counts]);
+  if (day === null) {
+    return (
+      <section
+        className="panel-accent--40"
+        style={{ border: "1px solid var(--color-accent-500)", padding: "36px 40px" }}
+      >
+        <div
+          className="page-header page-header--flex"
+          style={{ borderBottomColor: "var(--color-accent-300)" }}
+        >
+          <div>
+            <div className="page-kicker" style={{ color: "var(--color-accent-800)" }}>
+              D5 · report 1343
+            </div>
+            <h1 className="page-title">Booking sources</h1>
+          </div>
+          <div className="page-header-stat">
+            <DateBasisBadge basis="booking_date" large />
+          </div>
+        </div>
+        <section className="panel-dotted" style={{ background: "var(--color-bg)" }}>
+          <div className="panel-dotted-title">Not available</div>
+          <p className="note">
+            Report 1343 (D5) has delivered no business day yet, so there is no date to show. Absent
+            is not zero — no shares are drawn (I5).
+          </p>
+        </section>
+      </section>
+    );
+  }
+
   const channels = values
-    .filter((f) => f.businessDate === DAY && f.dimensionType === "source")
+    .filter((f) => f.businessDate === day && f.dimensionType === "source")
     .sort((a, b) => b.valueNumeric - a.valueNumeric);
-  const totalV = values.find((f) => f.businessDate === DAY && f.isTotalRow);
-  const totalC = counts.find((f) => f.businessDate === DAY && f.isTotalRow);
+  const totalV = values.find((f) => f.businessDate === day && f.isTotalRow);
+  const totalC = counts.find((f) => f.businessDate === day && f.isTotalRow);
   const countOf = (s: string | null) =>
     counts.find(
-      (f) => f.businessDate === DAY && f.dimensionType === "source" && f.dimensionValue === s,
+      (f) => f.businessDate === day && f.dimensionType === "source" && f.dimensionValue === s,
     );
 
   return (
@@ -32,12 +67,12 @@ export default async function BookingSourcePage() {
       >
         <div>
           <div className="page-kicker" style={{ color: "var(--color-accent-800)" }}>
-            D5 · report 1343
+            D5 · report 1343 · booking date {day}
           </div>
           <h1 className="page-title">Booking sources</h1>
           <p className="page-lede" style={{ color: "var(--color-accent-900)" }}>
-            Everything on this screen is on <strong>booking date</strong> — bookings created on 19
-            August, whenever the service will be delivered. Do not read it as the day&apos;s
+            Everything on this screen is on <strong>booking date</strong> — bookings created on{" "}
+            {day}, whenever the service will be delivered. Do not read it as the day&apos;s
             delivered business. Hypothesis H1 remains open.
           </p>
         </div>

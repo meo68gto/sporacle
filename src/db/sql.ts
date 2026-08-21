@@ -30,6 +30,8 @@ CREATE TABLE IF NOT EXISTS ingest_run (
   supersedes_run_id text,
   created_at timestamptz NOT NULL
 );
+-- delivery_id is written only at terminal success (see src/lib/ingest/veluma-events.ts, B2):
+-- the partial unique index therefore only ever guards fully-delivered batches.
 CREATE UNIQUE INDEX IF NOT EXISTS ingest_run_delivery_id_uidx ON ingest_run (delivery_id) WHERE delivery_id IS NOT NULL;
 CREATE TABLE IF NOT EXISTS measure_fact (
   id text PRIMARY KEY,

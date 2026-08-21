@@ -6,9 +6,7 @@ import { getDb } from "@/lib/runtime";
 import { activeFacts, provenanceOf } from "@/lib/queries/facts";
 import { eachDateInclusive, asBusinessDate } from "@/lib/date";
 import { fromCents, toDisplay } from "@/lib/money";
-
-const DAY = "2026-08-19";
-const WINDOW_END = "2026-08-20";
+import { latestDeliveredDay, shiftBusinessDate } from "@/lib/business-day";
 
 const MONTH_NAMES = [
   "January",
@@ -46,20 +44,44 @@ export default async function DemandPage({
   const values = await activeFacts(db, { measureKey: "appt_value_by_hour" });
   const counts = await activeFacts(db, { measureKey: "appt_count_by_hour" });
 
+  // I5 — the business day is the latest date D1 delivered a total row for,
+  // shared derivation with Today. Never a hardcoded date.
+  const day = latestDeliveredDay(counts, { measureKeys: ["appt_count_by_hour"], totalRowsOnly: true });
+  if (day === null) {
+    return (
+      <>
+        <PageHeader
+          kicker="D1 · report 1421 · service date"
+          title="Demand by hour"
+          lede="One measure family from a single report — appointment counts and claimed value by hour, same source, same grain, same basis. Missing days are drawn as gaps, never as zero."
+        />
+        <section className="panel-dotted">
+          <div className="panel-dotted-title">Not available</div>
+          <p className="note">
+            Report 1421 (D1) has delivered no business day yet, so there is no date to show. Absent
+            is not zero — nothing is rendered as 0 (I5).
+          </p>
+        </section>
+      </>
+    );
+  }
+
   const hours = counts
-    .filter((f) => f.businessDate === DAY && f.dimensionType === "hour")
+    .filter((f) => f.businessDate === day && f.dimensionType === "hour")
     .sort((a, b) => Number(a.dimensionValue) - Number(b.dimensionValue));
-  const hourValues = values.filter((f) => f.businessDate === DAY && f.dimensionType === "hour");
-  const totalC = counts.find((f) => f.businessDate === DAY && f.isTotalRow);
-  const totalV = values.find((f) => f.businessDate === DAY && f.isTotalRow);
+  const hourValues = values.filter((f) => f.businessDate === day && f.dimensionType === "hour");
+  const totalC = counts.find((f) => f.businessDate === day && f.isTotalRow);
+  const totalV = values.find((f) => f.businessDate === day && f.isTotalRow);
   const firstHour = hours[0];
   const peak = hours.reduce(
     (a, b) => ((a?.valueNumeric ?? -1) >= b.valueNumeric ? a : b),
     firstHour,
   );
 
-  const windowStart = range === 7 ? "2026-08-14" : "2026-08-07";
-  const window = eachDateInclusive(asBusinessDate(windowStart), asBusinessDate(WINDOW_END)).map(
+  // The window ends at the derived business day and reaches back range-1
+  // days — it moves with the deliveries, not with a frozen demo window.
+  const windowStart = shiftBusinessDate(day, -(range - 1));
+  const window = eachDateInclusive(asBusinessDate(windowStart), asBusinessDate(day)).map(
     (d) => {
       const row = counts.find((f) => f.businessDate === d && f.isTotalRow);
       return { x: d.slice(5), row };
@@ -71,7 +93,7 @@ export default async function DemandPage({
   return (
     <>
       <PageHeader
-        kicker="D1 · report 1421 · service date"
+        kicker={`D1 · report 1421 · service date ${day}`}
         title="Demand by hour"
         lede="One measure family from a single report — appointment counts and claimed value by hour, same source, same grain, same basis. Missing days are drawn as gaps, never as zero."
         right={
@@ -117,7 +139,7 @@ export default async function DemandPage({
           <section className="panel-dotted">
             <div className="panel-dotted-title">Not available</div>
             <p className="note">
-              Report 1421 delivered no total row for {dayLabel(DAY)}. Absent is not zero — nothing
+              Report 1421 delivered no total row for {dayLabel(day)}. Absent is not zero — nothing
               is rendered as 0.
             </p>
           </section>
@@ -127,7 +149,7 @@ export default async function DemandPage({
           <section className="chart">
             <div className="chart-head">
               <h2 className="chart-title">
-                {dayLabel(DAY)} · appointments and value by hour
+                {dayLabel(day)} · appointments and value by hour
               </h2>
             </div>
             <Spark
@@ -149,7 +171,7 @@ export default async function DemandPage({
           <section className="panel-dotted">
             <div className="panel-dotted-title">Hourly detail not available</div>
             <p className="note">
-              No D1 hour rows were delivered for {dayLabel(DAY)}. The chart is withheld rather than
+              No D1 hour rows were delivered for {dayLabel(day)}. The chart is withheld rather than
               drawn flat at the axis.
             </p>
           </section>
@@ -159,7 +181,7 @@ export default async function DemandPage({
           <div className="chart-head">
             <h2 className="chart-title">
               {range === 7 ? "Seven" : "Fourteen"}-day window · {dayLabel(windowStart)} →{" "}
-              {dayLabel(WINDOW_END)}
+              {dayLabel(day)}
             </h2>
             {gapCount > 0 ? (
               <span className="note">

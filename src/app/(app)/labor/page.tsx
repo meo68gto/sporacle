@@ -6,6 +6,7 @@ import { Spark } from "@/components/Spark";
 import { StatusBadge } from "@/components/StatusBadge";
 import { getDb } from "@/lib/runtime";
 import { activeFacts, provenanceOf, type FactRow } from "@/lib/queries/facts";
+import { latestDeliveredDay } from "@/lib/business-day";
 
 /**
  * Labor & coverage — merged screen (design spec §3.7). /coverage redirects
@@ -14,8 +15,6 @@ import { activeFacts, provenanceOf, type FactRow } from "@/lib/queries/facts";
  * H6). Technicians are pseudonymous at source (I11); missing series render
  * as "Not available", never 0 (I5); every figure carries provenance (I4).
  */
-
-const DAY = "2026-08-19";
 
 function hoursDisplay(n: number): string {
   return `${(n / 100).toFixed(2)} h`;
@@ -52,9 +51,13 @@ export default async function LaborPage() {
   const clients = tot("labor_client_count");
   const util = tot("labor_utilization_pct_reported");
 
-  // D1 — hourly demand for the coverage chart
-  const demand = (await activeFacts(db, { measureKey: "appt_count_by_hour" }))
-    .filter((f) => f.businessDate === DAY && f.dimensionType === "hour")
+  // D1 — hourly demand for the coverage chart. The day is the latest date
+  // D1 delivered a total row for (shared derivation with Today — I5: never
+  // a hardcoded date; null renders the explicit no-delivery state below).
+  const d1 = await activeFacts(db, { measureKey: "appt_count_by_hour" });
+  const demandDay = latestDeliveredDay(d1, { measureKeys: ["appt_count_by_hour"], totalRowsOnly: true });
+  const demand = d1
+    .filter((f) => f.businessDate === demandDay && f.dimensionType === "hour")
     .sort((a, b) => Number(a.dimensionValue) - Number(b.dimensionValue));
   const firstDemand = demand[0];
   const peak = demand.reduce((a, b) => ((a?.valueNumeric ?? -1) >= b.valueNumeric ? a : b), firstDemand);
@@ -176,7 +179,9 @@ export default async function LaborPage() {
         >
           <section className="chart">
             <div className="chart-head">
-              <h2 className="chart-title">Coverage against demand</h2>
+              <h2 className="chart-title">
+                Coverage against demand{demandDay ? ` · ${demandDay}` : ""}
+              </h2>
             </div>
             <p className="note" style={{ margin: "0 0 16px" }}>
               Hourly demand from D1 against the D10 schedule. Scheduled capacity arrives only as a
@@ -201,8 +206,9 @@ export default async function LaborPage() {
               />
             ) : (
               <p className="na">
-                Not available — no D1 hour rows were delivered for 19 August. The chart is withheld
-                rather than drawn flat at the axis (I5).
+                {demandDay
+                  ? `Not available — no D1 hour rows were delivered for ${demandDay}. The chart is withheld rather than drawn flat at the axis (I5).`
+                  : "Not available — report 1421 (D1) has delivered no business day yet. The chart is withheld rather than drawn flat at the axis (I5)."}
               </p>
             )}
             <div className="hairline" style={{ margin: "16px 0 12px" }} />
