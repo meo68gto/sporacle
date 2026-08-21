@@ -9,7 +9,9 @@ const compat = new FlatCompat({
 const eslintConfig = [
   ...compat.extends("next/core-web-vitals", "next/typescript"),
   {
-    ignores: [".next/**", "node_modules/**", "data/**", ".data/**", "next-env.d.ts"],
+    // design/** holds Claude Design prototype exports, kept byte-identical to the
+    // export so they can be re-synced; they are not part of the built app.
+    ignores: [".next/**", "node_modules/**", "data/**", ".data/**", "design/**", "next-env.d.ts"],
   },
 ];
 
