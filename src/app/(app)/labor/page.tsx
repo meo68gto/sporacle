@@ -25,7 +25,7 @@ function hourLabel(h: string | null): string {
 }
 
 const headingValue: React.CSSProperties = {
-  fontFamily: "var(--font-heading)",
+  fontFamily: "var(--font-mono)",
   fontWeight: 400,
   fontSize: 22,
   fontVariantNumeric: "tabular-nums",

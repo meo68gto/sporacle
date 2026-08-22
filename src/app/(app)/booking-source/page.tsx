@@ -108,7 +108,7 @@ export default async function BookingSourcePage() {
                 </span>
                 <div
                   style={{
-                    fontFamily: "var(--font-heading)",
+                    fontFamily: "var(--font-mono)",
                     fontWeight: 400,
                     fontSize: 44,
                     lineHeight: 1.1,
@@ -170,7 +170,7 @@ export default async function BookingSourcePage() {
             Total {totalC.valueNumeric} bookings ·{" "}
             <span
               style={{
-                fontFamily: "var(--font-heading)",
+                fontFamily: "var(--font-mono)",
                 fontWeight: 400,
                 fontSize: 22,
                 fontVariantNumeric: "tabular-nums",

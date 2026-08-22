@@ -8,65 +8,113 @@
    ============================================================ */
 
 :root {
-  /* --- DS color tokens (§1.1) --- */
-  --color-bg: #f3f2f2;
-  --color-surface: #eae9e9;
-  --color-text: #201f1d;
-  --color-accent: #b68235;
-  --color-accent-2: #ac803e;
-  --color-divider: color-mix(in srgb, #201f1d 16%, transparent);
+  /* --- Workforce palette — raw ramps (design system tokens).
+     Warm-neutral ink, midnight navy brand, champagne-brass accent. --- */
+  --ink-950: #0e1014;
+  --ink-900: #16191f;
+  --ink-800: #22262f;
+  --ink-700: #353b47;
+  --ink-600: #4c535f;
+  --ink-500: #6a717d;
+  --ink-400: #8e95a0;
+  --ink-300: #b7bcc5;
+  --ink-200: #dcdee3;
+  --ink-150: #e7e8ec;
+  --ink-100: #eff0f2;
+  --ink-50: #f6f6f8;
+  --paper: #fafaf8; /* warm off-white canvas */
 
-  --color-neutral-100: #f8f4f4;
-  --color-neutral-200: #eae7e7;
-  --color-neutral-300: #d7d3d3;
-  --color-neutral-400: #bab6b6;
-  --color-neutral-500: #9b9797;
-  --color-neutral-600: #7d7979;
-  --color-neutral-700: #605d5d;
-  --color-neutral-800: #444141;
-  --color-neutral-900: #2d2b2b;
+  --navy-950: #0a1b2a;
+  --navy-900: #0f2438;
+  --navy-800: #143049;
+  --navy-700: #1b3e5c;
+  --navy-600: #245074;
+  --navy-500: #32648c;
+  --navy-400: #5a86a8;
+  --navy-300: #9db7cc;
+  --navy-200: #ccdbe7;
+  --navy-100: #e6eef4;
+  --navy-50: #f2f7fb;
 
-  --color-accent-100: #fff3e4;
-  --color-accent-200: #ffe3bf;
-  --color-accent-300: #facb8d;
-  --color-accent-400: #e1ad66;
-  --color-accent-500: #c28d41;
-  --color-accent-600: #a06f24;
-  --color-accent-700: #7d5411;
-  --color-accent-800: #5a3b0a;
-  --color-accent-900: #3a270d;
+  --brass-800: #6e561b;
+  --brass-700: #8a6d24;
+  --brass-600: #a6862f;
+  --brass-500: #c0a14a;
+  --brass-400: #d4bc78;
+  --brass-300: #e6d5a8;
+  --brass-200: #f0e5c9;
+  --brass-100: #f7efdb;
 
-  --color-accent-2-100: #fff3e4;
-  --color-accent-2-200: #ffe3be;
-  --color-accent-2-300: #f5cd96;
-  --color-accent-2-400: #dbaf70;
-  --color-accent-2-500: #bc8f4e;
-  --color-accent-2-600: #9b7232;
-  --color-accent-2-700: #79561f;
-  --color-accent-2-800: #573d14;
-  --color-accent-2-900: #382810;
+  --amber-700: #946716;
+  --amber-600: #b5821e;
+  --amber-500: #d29a2a;
+  --amber-100: #fbf0d8;
+  --amber-50: #fdf8ec;
+
+  /* --- DS color tokens (§1.1) mapped onto the Workforce palette.
+     Existing markup keeps its class + token names and re-skins wholesale. --- */
+  --color-bg: var(--paper);
+  --color-surface: var(--ink-50);
+  --color-text: var(--ink-900);
+  --color-accent: var(--amber-500);
+  --color-accent-2: var(--brass-600);
+  --color-divider: var(--ink-150);
+
+  --color-neutral-100: var(--ink-100);
+  --color-neutral-200: var(--ink-200);
+  --color-neutral-300: var(--ink-300);
+  --color-neutral-400: var(--ink-400);
+  --color-neutral-500: var(--ink-500);
+  --color-neutral-600: var(--ink-600);
+  --color-neutral-700: var(--ink-700);
+  --color-neutral-800: var(--ink-800);
+  --color-neutral-900: var(--ink-900);
+
+  /* Accent ramp: booking-date / caution / unvalidated read as amber;
+     provenance underlines read as champagne brass (300–400). */
+  --color-accent-100: var(--amber-50);
+  --color-accent-200: var(--amber-100);
+  --color-accent-300: var(--brass-300);
+  --color-accent-400: var(--brass-400);
+  --color-accent-500: var(--amber-500);
+  --color-accent-600: var(--amber-600);
+  --color-accent-700: var(--amber-700);
+  --color-accent-800: var(--amber-700);
+  --color-accent-900: var(--brass-800);
+
+  --color-accent-2-100: var(--brass-100);
+  --color-accent-2-200: var(--brass-200);
+  --color-accent-2-300: var(--brass-300);
+  --color-accent-2-400: var(--brass-400);
+  --color-accent-2-500: var(--brass-500);
+  --color-accent-2-600: var(--brass-600);
+  --color-accent-2-700: var(--brass-700);
+  --color-accent-2-800: var(--brass-800);
+  --color-accent-2-900: var(--brass-800);
 
   /* --- app extensions hardcoded in the artboards (§1.2) --- */
-  --ink-dark: #1b1917;
-  --ink-dark-text: #e6e1d9;
-  --ink-dark-bright: #f2ece2;
-  --ink-dark-muted: #9b948a;
-  --ink-dark-faint: #7c756b;
-  --ink-dark-dim: #6e6862;
-  --ink-dark-soft: #c9c2b8;
-  --ink-dark-divider: rgba(230, 225, 217, 0.18);
-  --ink-dark-divider-20: rgba(230, 225, 217, 0.2);
-  --ink-dark-divider-22: rgba(230, 225, 217, 0.22);
-  --nav-active-bg: rgba(198, 141, 65, 0.14);
-  --nav-hover-bg: rgba(230, 225, 217, 0.07);
-  --backdrop: rgba(27, 25, 23, 0.55);
+  --ink-dark: var(--navy-900);
+  --ink-dark-text: var(--navy-100);
+  --ink-dark-bright: #ffffff;
+  --ink-dark-muted: var(--navy-300);
+  --ink-dark-faint: var(--navy-400);
+  --ink-dark-dim: var(--navy-400);
+  --ink-dark-soft: var(--navy-200);
+  --ink-dark-divider: rgba(255, 255, 255, 0.16);
+  --ink-dark-divider-20: rgba(255, 255, 255, 0.2);
+  --ink-dark-divider-22: rgba(255, 255, 255, 0.22);
+  --nav-active-bg: rgba(212, 188, 120, 0.16);
+  --nav-hover-bg: rgba(255, 255, 255, 0.07);
+  --backdrop: rgba(10, 27, 42, 0.6);
   --surface-accent-55: color-mix(in srgb, var(--color-accent-100) 55%, var(--color-bg));
   --surface-accent-40: color-mix(in srgb, var(--color-accent-100) 40%, var(--color-bg));
 
   /* --- typography (§1.3) — next/font variables set on <html> --- */
-  --font-heading: var(--font-heading-gf, "Cormorant Garamond"), "Cormorant Garamond", Georgia, "Times New Roman", serif;
+  --font-heading: var(--font-heading-gf, "Spectral"), "Spectral", Georgia, "Times New Roman", serif;
   --font-heading-weight: 600; /* ceiling for small interface headings; display text is 400 */
-  --font-body: var(--font-body-gf, Lora), Lora, Georgia, "Times New Roman", serif;
+  --font-body: var(--font-body-gf, "Hanken Grotesk"), "Hanken Grotesk", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  /* Numerics — Spline Sans Mono. Money, hours, times, IDs, KPI values. */
+  --font-mono: var(--font-mono-gf, "Spline Sans Mono"), "Spline Sans Mono", ui-monospace, "SF Mono", Menlo, monospace;
 
   /* --- spacing / radii / shadows (§1.4) --- */
   --space-1: 4.6px;
@@ -76,13 +124,13 @@
   --space-6: 27.6px;
   --space-8: 36.8px;
 
-  --radius-sm: 2px;
-  --radius-md: 4px;
-  --radius-lg: 7px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 10px;
 
-  --shadow-sm: 0 1px 2px color-mix(in srgb, #2d2b2b 14%, transparent);
-  --shadow-md: 0 3px 10px color-mix(in srgb, #2d2b2b 16%, transparent);
-  --shadow-lg: 0 12px 32px color-mix(in srgb, #2d2b2b 22%, transparent);
+  --shadow-sm: 0 1px 3px rgba(16, 24, 40, 0.07), 0 1px 2px rgba(16, 24, 40, 0.04);
+  --shadow-md: 0 4px 10px -2px rgba(16, 24, 40, 0.08), 0 2px 4px -2px rgba(16, 24, 40, 0.05);
+  --shadow-lg: 0 12px 24px -6px rgba(16, 24, 40, 0.12), 0 4px 8px -4px rgba(16, 24, 40, 0.06);
 
   --hatch: repeating-linear-gradient(
     135deg,
@@ -99,6 +147,91 @@
   --line: var(--color-divider);
   --card: var(--color-bg);
   --accent: var(--color-accent-700);
+
+  /* Links read navy; focus rings read navy (design: brass is a garnish, not a UI fill). */
+  --text-link: var(--navy-600);
+  --border-focus: var(--navy-500);
+}
+
+/* ============================================================
+   Dark theme. Explicit choice wins via [data-theme]; the
+   default "system" setting follows prefers-color-scheme.
+   The whole app is re-skinned by overriding the same aliases.
+   ============================================================ */
+
+:root[data-theme="dark"],
+.wf-dark {
+  --color-bg: var(--navy-950);
+  --color-surface: #12283c;
+  --color-text: #ffffff;
+  --color-divider: #1b3e5c;
+
+  --color-neutral-100: #12283c;
+  --color-neutral-200: #143049;
+  --color-neutral-300: #245074;
+  --color-neutral-400: #245074;
+  --color-neutral-500: #5a86a8;
+  --color-neutral-600: #9db7cc;
+  --color-neutral-700: #ccdbe7;
+  --color-neutral-800: #e6eef4;
+  --color-neutral-900: #ffffff;
+
+  --color-accent: var(--brass-600);
+  --color-accent-100: #2a2113;
+  --color-accent-200: #2a2113;
+  --color-accent-300: var(--brass-300);
+  --color-accent-400: var(--brass-400);
+  --color-accent-500: var(--brass-600);
+  --color-accent-600: var(--brass-500);
+  --color-accent-700: var(--brass-300);
+  --color-accent-800: var(--brass-300);
+  --color-accent-900: var(--brass-200);
+
+  --ink-dark: #12293e;
+  --nav-active-bg: rgba(212, 188, 120, 0.16);
+  --nav-hover-bg: rgba(255, 255, 255, 0.07);
+  --backdrop: rgba(10, 27, 42, 0.72);
+
+  --text-link: var(--brass-300);
+  --border-focus: var(--navy-400);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --color-bg: var(--navy-950);
+    --color-surface: #12283c;
+    --color-text: #ffffff;
+    --color-divider: #1b3e5c;
+
+    --color-neutral-100: #12283c;
+    --color-neutral-200: #143049;
+    --color-neutral-300: #245074;
+    --color-neutral-400: #245074;
+    --color-neutral-500: #5a86a8;
+    --color-neutral-600: #9db7cc;
+    --color-neutral-700: #ccdbe7;
+    --color-neutral-800: #e6eef4;
+    --color-neutral-900: #ffffff;
+
+    --color-accent: var(--brass-600);
+    --color-accent-100: #2a2113;
+    --color-accent-200: #2a2113;
+    --color-accent-300: var(--brass-300);
+    --color-accent-400: var(--brass-400);
+    --color-accent-500: var(--brass-600);
+    --color-accent-600: var(--brass-500);
+    --color-accent-700: var(--brass-300);
+    --color-accent-800: var(--brass-300);
+    --color-accent-900: var(--brass-200);
+
+    --ink-dark: #12293e;
+    --nav-active-bg: rgba(212, 188, 120, 0.16);
+    --nav-hover-bg: rgba(255, 255, 255, 0.07);
+    --backdrop: rgba(10, 27, 42, 0.72);
+
+    --text-link: var(--brass-300);
+    --border-focus: var(--navy-400);
+  }
 }
 
 /* ============ base ============ */
@@ -119,19 +252,19 @@ body {
 }
 
 a {
-  color: var(--color-accent-700);
-  text-decoration-color: var(--color-accent-300);
+  color: var(--text-link);
+  text-decoration-color: color-mix(in srgb, var(--text-link) 45%, transparent);
 }
 a:hover {
-  color: var(--color-accent-800);
+  color: color-mix(in srgb, var(--text-link) 80%, var(--color-text));
 }
 
 ::selection {
-  background: var(--color-accent-200);
+  background: color-mix(in srgb, var(--text-link) 22%, transparent);
 }
 
 :focus-visible {
-  outline: 2px solid var(--color-accent);
+  outline: 2px solid var(--border-focus);
   outline-offset: 2px;
 }
 
@@ -284,6 +417,51 @@ body {
   margin: 0 0 14px;
 }
 
+/* appearance (theme) switch — segmented control on the midnight spine */
+.appearance {
+  margin-bottom: 18px;
+}
+.appearance-label,
+.sidebar-signed-in {
+  font-size: 9.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-dark-dim);
+  margin-bottom: 8px;
+}
+.seg-theme {
+  display: flex;
+  border: 1px solid var(--ink-dark-divider-20);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+.seg-theme-opt {
+  flex: 1;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  padding: 7px 4px;
+  text-align: center;
+  font-family: var(--font-body);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-dark-dim);
+  cursor: pointer;
+}
+.seg-theme-opt:hover {
+  background: rgba(255, 255, 255, 0.09);
+  color: var(--ink-dark-bright);
+}
+.seg-theme-opt.selected {
+  color: var(--ink-dark-bright);
+  background: rgba(212, 188, 120, 0.22);
+}
+.seg-theme-opt:focus-visible {
+  outline: 2px solid var(--ink-dark-soft);
+  outline-offset: -2px;
+}
+
 .sidebar-user {
   font-size: 11px;
   color: var(--ink-dark-muted);
@@ -372,7 +550,7 @@ main {
   color: var(--color-neutral-600);
 }
 .page-header-stat-value {
-  font-family: var(--font-heading);
+  font-family: var(--font-mono);
   font-weight: 400;
   font-size: 22px;
   font-variant-numeric: tabular-nums;
@@ -640,7 +818,7 @@ main {
 
 .stat-value,
 .figure-value {
-  font-family: var(--font-heading);
+  font-family: var(--font-mono);
   font-weight: 400;
   font-size: 46px;
   font-variant-numeric: tabular-nums;
@@ -879,6 +1057,9 @@ th.num,
 td.num {
   text-align: right;
   font-variant-numeric: tabular-nums;
+}
+td.num {
+  font-family: var(--font-mono);
 }
 
 tr.row-emph,
@@ -1195,9 +1376,9 @@ textarea {
 input:focus,
 textarea:focus,
 select:focus {
-  outline: 2px solid var(--color-accent);
+  outline: 2px solid var(--border-focus);
   outline-offset: 1px;
-  border-color: var(--color-accent-500);
+  border-color: var(--border-focus);
 }
 
 label {
@@ -1308,9 +1489,9 @@ label {
   min-height: 22px;
 }
 
-/* identity line (hypothesis H4) */
+/* identity line (hypothesis H4) — arithmetic reads in mono */
 .identity-line {
-  font-family: var(--font-heading);
+  font-family: var(--font-mono);
   font-weight: 400;
   font-size: 22px;
   font-variant-numeric: tabular-nums;

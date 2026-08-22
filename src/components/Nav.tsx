@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import type { SessionUser } from "@/lib/auth/roles";
 import type { NavFlags } from "@/lib/nav-flags";
 import { MEASURE_DEFS } from "@/lib/measures/registry";
+import { ThemeToggle } from "./ThemeToggle";
 
 /**
  * Dark left sidebar (design spec §2.1). Four grouped sections plus an
@@ -94,6 +95,8 @@ export function Nav({ user, flags }: { user: SessionUser; flags?: NavFlags | nul
       </nav>
       <div className="sidebar-footer">
         <div className="sidebar-hairline" />
+        <ThemeToggle />
+        <div className="sidebar-signed-in">Signed in as</div>
         <div className="sidebar-user">{user.actor}</div>
         <div className="sidebar-role">{user.role}</div>
         <form className="sidebar-logout" action="/api/logout" method="post">

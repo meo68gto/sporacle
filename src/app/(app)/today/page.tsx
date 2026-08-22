@@ -23,7 +23,7 @@ import { SOURCE_SEED } from "@/db/sources";
  */
 
 const HEADING_FONT: React.CSSProperties = {
-  fontFamily: "var(--font-heading)",
+  fontFamily: "var(--font-mono)",
   fontWeight: 400,
   fontVariantNumeric: "tabular-nums",
   lineHeight: 1.1,
