@@ -30,7 +30,7 @@ function outageDay(since: string | null): number | null {
 
 const asideLabel: React.CSSProperties = { marginBottom: 4 };
 const asideValue: React.CSSProperties = {
-  fontFamily: "var(--font-heading)",
+  fontFamily: "var(--font-mono)",
   fontWeight: 400,
   fontSize: 22,
   fontVariantNumeric: "tabular-nums",

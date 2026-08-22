@@ -57,7 +57,7 @@ export default async function GatesPage({
 
       <section className="panel-tinted" style={{ display: "grid", gridTemplateColumns: "auto 1fr", gap: 36, alignItems: "center", marginBottom: 28 }}>
         <div>
-          <div style={{ ...heading, fontSize: 64, lineHeight: 1 }}>
+          <div style={{ ...heading, fontFamily: "var(--font-mono)", fontSize: 64, lineHeight: 1 }}>
             {openCount}
             <span style={{ color: "var(--color-neutral-400)" }}>/{gates.length}</span>
           </div>
